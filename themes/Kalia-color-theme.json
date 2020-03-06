@@ -322,7 +322,7 @@
 				"markup.heading.markdown"
 			],
 			"settings": {
-				"foreground": "#FFFFFF"
+				"foreground": "#cacaca"
 			}
 		},
 		// ******************************** typescript
