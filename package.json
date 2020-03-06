@@ -35,5 +35,8 @@
   },
   "scripts": {
     "release": "vsce publish minor"
+  },
+  "dependencies": {
+    "react": "16.13.0"
   }
 }
