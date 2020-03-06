@@ -2,7 +2,12 @@
     "name": "kalia",
     "displayName": "Kalia",
     "description": "Theme",
+    "publisher": "krasimir",
     "version": "0.0.1",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/krasimir/kalia"
+    },
     "engines": {
         "vscode": "^1.42.0"
     },
@@ -17,5 +22,12 @@
                 "path": "./themes/Kalia-color-theme.json"
             }
         ]
+    },
+    "galleryBanner": {
+        "color": "#000000",
+        "theme": "dark"
+    },
+    "scripts": {
+        "release": "vsce publish"
     }
 }
