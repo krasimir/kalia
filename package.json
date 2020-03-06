@@ -1,0 +1,21 @@
+{
+    "name": "kalia",
+    "displayName": "Kalia",
+    "description": "Theme",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.42.0"
+    },
+    "categories": [
+        "Themes"
+    ],
+    "contributes": {
+        "themes": [
+            {
+                "label": "Kalia",
+                "uiTheme": "vs-dark",
+                "path": "./themes/Kalia-color-theme.json"
+            }
+        ]
+    }
+}
