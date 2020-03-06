@@ -151,7 +151,7 @@
 		"tab.inactiveBackground": "#252525",
 		"tab.inactiveForeground": "#7a7a7a",
 		"tab.inactiveModifiedBorder": "#000",
-		"editorGroupHeader.tabsBackground": "#252525", // tabs background color
+		"editorGroupHeader.tabsBackground": "#000", // tabs background color
 
 		"breadcrumb.background": "#000000",
 		"breadcrumb.foreground": "#555555",
@@ -251,10 +251,11 @@
 				"meta.function-call entity.name.function",
 				"meta.definition.property entity.name.function",
 				"meta.definition.method entity.name.function",
-				"variable.language.this"
+				"variable.language.this",
+				"support.type.property-name.json"
 			],
 			"settings": {
-				"foreground": "#c7c7c7"
+				"foreground": "#cacaca"
 			}
 		},
 		// bold
@@ -319,15 +320,6 @@
 		{
 			"scope": [
 				"markup.heading.markdown"
-			],
-			"settings": {
-				"foreground": "#FFFFFF"
-			}
-		},
-		// ******************************** json
-		{
-			"scope": [
-				"support.type.property-name.json"
 			],
 			"settings": {
 				"foreground": "#FFFFFF"
