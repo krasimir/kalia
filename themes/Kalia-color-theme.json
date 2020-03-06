@@ -25,7 +25,7 @@
 		"editor.foreground": "#b6b6b6", // main color of the text
 		"editor.lineHighlightBackground": "#46e7fc14",
 		"editor.lineHighlightBorder": "#0000",
-		"editor.selectionBackground": "#46e7fc7f",
+		"editor.selectionBackground": "#fff",
 		"editor.selectionForeground": "#000",
 		"editor.selectionHighlightBorder": "#46e7fc3f",
 		"editor.stackFrameHighlightBackground": "#ff99004c",
@@ -52,12 +52,12 @@
 		"editorOverviewRuler.findMatchForeground": "#ffca0099",
 		"editorOverviewRuler.modifiedForeground": "#fff",
 		"editorOverviewRuler.selectionHighlightForeground": "#46e7fc7f",
-		"editorOverviewRuler.warningForeground": "#f90",
+		"editorOverviewRuler.warningForeground": "#000",
 		"editorOverviewRuler.wordHighlightForeground": "#46e7fc3f",
 		"editorOverviewRuler.wordHighlightStrongForeground": "#46e7fc7f",
 		"editorRuler.foreground": "#0a0b0f",
 		"editorSuggestWidget.foreground": "#fff",
-		"editorWarning.foreground": "#f90",
+		"editorWarning.foreground": "#000",
 		"editorWidget.background": "#0a0b0f",
 		"editorWidget.border": "#1e1d27",
 		"errorForeground": "#ff0032",
@@ -67,7 +67,7 @@
 		"focusBorder": "#1e1d27",
 		"foreground": "#fff",
 		"gitDecoration.ignoredResourceForeground": "#2e2e37",
-		"gitDecoration.modifiedResourceForeground": "#fff",
+		"gitDecoration.modifiedResourceForeground": "#255a7a",
 		"gitDecoration.untrackedResourceForeground": "#fff",
 		"input.background": "#0a0b0f",
 		"input.border": "#1e1d27",
@@ -195,7 +195,10 @@
 				"variable.other",
 				"keyword.control.flow",
 				"storage.modifier",
-				"storage.type"
+				"meta.function-call entity.name.function",
+				"meta.definition.property entity.name.function",
+				"meta.definition.method entity.name.function",
+				"variable.language.this"
 			],
 			"settings": {
 				"foreground": "#ffffff"
@@ -239,12 +242,14 @@
 				"foreground": "#b0cab2"
 			}
 		},
+		// dim
 		{
 			"scope": [
-				"support.type"
+				"meta.object.member variable.other.property",
+				"variable.other.property"
 			],
 			"settings": {
-				"foreground": "#5c5c5c"
+				"foreground": "#ffffffBB"
 			}
 		},
 		// ******************************** Markdown
@@ -272,6 +277,25 @@
 			],
 			"settings": {
 				"foreground": "#FFFFFF"
+			}
+		},
+		// ******************************** typescript
+		{
+			"scope": [
+				"support.type"
+			],
+			"settings": {
+				"foreground": "#5c5c5c"
+			}
+		},
+		{
+			"scope": [
+				"entity.name.type.interface",
+				"meta.parameters meta.type.annotation entity.name.type",
+				"meta.var-single-variable.expr meta.type.annotation entity.name.type",
+			],
+			"settings": {
+				"foreground": "#8fecc5"
 			}
 		}
 	]

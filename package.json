@@ -1,33 +1,33 @@
 {
-    "name": "kalia",
-    "displayName": "Kalia",
-    "description": "Theme",
-    "publisher": "krasimir",
-    "version": "0.2.0",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/krasimir/kalia"
-    },
-    "engines": {
-        "vscode": "^1.42.0"
-    },
-    "categories": [
-        "Themes"
-    ],
-    "contributes": {
-        "themes": [
-            {
-                "label": "Kalia",
-                "uiTheme": "vs-dark",
-                "path": "./themes/Kalia-color-theme.json"
-            }
-        ]
-    },
-    "galleryBanner": {
-        "color": "#000000",
-        "theme": "dark"
-    },
-    "scripts": {
-        "release": "vsce publish"
-    }
+  "name": "kalia",
+  "displayName": "Kalia",
+  "description": "Theme",
+  "publisher": "krasimir",
+  "version": "0.2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/krasimir/kalia"
+  },
+  "engines": {
+    "vscode": "^1.42.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Kalia",
+        "uiTheme": "vs-dark",
+        "path": "./themes/Kalia-color-theme.json"
+      }
+    ]
+  },
+  "galleryBanner": {
+    "color": "#000000",
+    "theme": "dark"
+  },
+  "scripts": {
+    "release": "vsce publish minor"
+  }
 }
