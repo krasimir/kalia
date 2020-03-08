@@ -20,6 +20,10 @@
   "categories": [
     "Themes"
   ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./extension.js",
   "contributes": {
     "themes": [
       {
@@ -37,6 +41,6 @@
     "release": "vsce publish minor"
   },
   "dependencies": {
-    "react": "16.13.0"
+    "@types/vscode": "^1.42.0"
   }
 }

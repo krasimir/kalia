@@ -11,7 +11,10 @@ const getAnswerA = function (name) {
   return `Hey ${name}`;
 }
 function getAnswerB() {
-  return 'Hey';
+  const transform = (n) => {
+    return n.toUpperCase();
+  }
+  return 'Hey, ' + transform('Steve');
 }
 class Test extends React.Component {
   constructor(props) {
