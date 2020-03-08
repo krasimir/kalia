@@ -221,14 +221,15 @@
 				"meta.method.declaration storage.type"
 			], "settings": { "foreground": "#4db8d3", "fontStyle": "bold" }
 		},
-		// logic
+		// logic/flow
 		{
 			"scope": [
 				"keyword.control.conditional",
 				"keyword.operator.relational",
 				"keyword.operator.arithmetic",
 				"keyword.control.loop",
-				"keyword.control.flow"
+				"keyword.control.flow",
+				"keyword.operator.comparison"
 			], "settings": { "foreground": "#b896bb" }
 		},
 		// white
@@ -238,7 +239,6 @@
 				"entity.other.inherited-class",
 				"punctuation.accessor",
 				"meta.definition.property",
-				"keyword.control.flow",
 				"storage.modifier",
 				"variable.language.this",
 				"support.type.property-name.json",

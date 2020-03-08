@@ -15,7 +15,11 @@ const joe = function () { };
 const wes = 100;
 
 function wes() {
-
+	if (wes === foo && wes >= 200) {
+		let bar = 20;
+		bar += 20;
+		return true;
+	}
 }
 
 const wes = () => { };
