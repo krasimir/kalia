@@ -32,6 +32,8 @@
 		"editor.wordHighlightStrongBackground": "#3a3a3a",
 		"editor.wordHighlightBorder": "#000",
 		"editor.wordHighlightStrongBorder": "#000",
+
+    "editor.foldBackground": "#060606", // folder block background
 		
 		"editorBracketMatch.background": "#414141", // bracket match
 		"editorBracketMatch.border": "#000",
