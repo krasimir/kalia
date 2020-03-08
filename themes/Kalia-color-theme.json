@@ -18,7 +18,7 @@
 		"dropdown.background": "#0a0b0f",
 		"dropdown.border": "#1e1d27",
 		"dropdown.foreground": "#fff",
-		"editor.background": "#000",
+		"editor.background": "#131313", // main editor background
 		"editor.findMatchBackground": "#34463a",
 		"editor.findMatchHighlightBackground": "#34463a",
 		"editor.focusedStackFrameHighlightBackground": "#f909",
@@ -47,8 +47,8 @@
 		
 		"editorLineNumber.activeForeground": "#5c5c5c",
 		"editorLineNumber.foreground": "#303030",
-		"editor.lineHighlightBackground": "#000000",
-		"editor.lineHighlightBorder": "#000",
+		"editor.lineHighlightBackground": "#131313", // current line background color
+		"editor.lineHighlightBorder": "#131313",
 
 		"editorLink.activeForeground": "#46e7fc",
 
