@@ -40,7 +40,7 @@
   "scripts": {
     "release": "vsce publish minor"
   },
-  "dependencies": {
+  "devDependencies": {
     "@types/vscode": "^1.42.0"
   }
 }
