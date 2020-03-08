@@ -135,7 +135,7 @@
 		"sideBar.background": "#000",
 		"sideBar.foreground": "#777777",
 		"sideBarSectionHeader.background": "#0a0b0f",
-		"sideBarSectionHeader.foreground": "#000000",
+		"sideBarSectionHeader.foreground": "#777777",
 		"sideBarTitle.foreground": "#5a5a5a",
 
 		"statusBar.background": "#000",
