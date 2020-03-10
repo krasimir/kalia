@@ -41,6 +41,7 @@
     "release": "vsce publish minor"
   },
   "devDependencies": {
-    "@types/vscode": "^1.42.0"
+    "@types/vscode": "^1.42.0",
+    "pairify": "1.0.4"
   }
 }
