@@ -23,7 +23,7 @@
   "activationEvents": [
     "*"
   ],
-  "main": "./extension.js",
+  "main": "./src/extension.js",
   "contributes": {
     "themes": [
       {
@@ -41,7 +41,9 @@
     "release": "vsce publish minor"
   },
   "devDependencies": {
-    "@types/vscode": "^1.42.0",
+    "@types/vscode": "^1.42.0"
+  },
+  "dependencies": {
     "pairify": "1.0.4"
   }
 }
