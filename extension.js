@@ -4,7 +4,7 @@ const pairify = require('pairify');
 const decorations = [];
 
 function activate(context) {
-	console.log('Kalia extension is activated');
+	// console.log('Kalia extension is activated');
 	vscode.window.onDidChangeTextEditorSelection(event => {
 		if (decorations.length > 0) {
 			decorations.forEach(d => d.dispose())
@@ -17,19 +17,24 @@ function activate(context) {
 				.filter(({ type }) => type === 'curly');
 			if (pairs.length > 0) {
 				const pair = pairs.pop();
-				const decoration = vscode.window.createTextEditorDecorationType({
-					rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
-					backgroundColor: "#f0f"
-				});
-				event.textEditor.setDecorations(decoration, [new vscode.Range(pair.from[0]-1, pair.from[1]-1, pair.to[0]-1, pair.to[1]-1)]);
-				decorations.push(decoration);
+				if (pair.to[0]-2 - pair.from[0] >= 0) {
+					const decoration = vscode.window.createTextEditorDecorationType({
+						rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
+						// backgroundColor: "#303030",
+						borderColor: '#303030',
+						borderWidth: '1px',
+						borderStyle: 'none none none solid'
+					});
+					event.textEditor.setDecorations(decoration, [new vscode.Range(pair.from[0], 0, pair.to[0]-2, 0)]);
+					decorations.push(decoration);
+				}
 			}
 		}
 	});
 }
 
 function deactivate() {
-	console.log('Kalia extension is deactivated');
+	// console.log('Kalia extension is deactivated');
 }
  
 module.exports = {
