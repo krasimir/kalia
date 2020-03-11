@@ -216,8 +216,8 @@
 		},
 		{
 			"scope": [
-				"entity.name.type.class",
-				"entity.name.function",
+				"meta.class entity.name.type.class",
+				"meta.definition.function entity.name.function",
 				"meta.parameters punctuation.definition.parameters.begin",
 				"meta.parameters punctuation.definition.parameters.end",
 				"meta.definition.method entity.name.function",
@@ -250,7 +250,14 @@
 				"variable.other.object",
 				"variable.parameter",
 				"variable.other.readwrite"
-			], "settings": { "foreground": "#c7c7c7" }
+			], "settings": { "foreground": "#c7c7c7", "fontStyle": "" }
+		},
+		// bold
+		{
+			"scope": [
+				"meta.function-call entity.name.function",
+				"new.expr entity.name.type"
+			], "settings": { "fontStyle": "bold" }
 		},
 		// italic
 		{
@@ -275,7 +282,6 @@
 			"scope": [
 				"meta.object.member variable.other.property",
 				"punctuation.terminator.statement",
-				"variable.other.property",
 				"meta.definition.property entity.name.function"
 			], "settings": { "foreground": "#cacacaBB" }
 		},

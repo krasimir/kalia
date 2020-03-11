@@ -20,8 +20,7 @@ function activate(context) {
 				if (pair.to[0]-2 - pair.from[0] >= 0) {
 					const decoration = vscode.window.createTextEditorDecorationType({
 						rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
-						// backgroundColor: "#303030",
-						borderColor: '#303030',
+						borderColor: 'rgba(77, 184, 211, 0.15)',
 						borderWidth: '1px',
 						borderStyle: 'none none none solid'
 					});

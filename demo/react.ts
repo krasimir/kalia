@@ -7,3 +7,9 @@ export class App extends React.Component {
     console.log(this.foo);
   }
 }
+
+class Helper {
+
+}
+
+const h = new Helper();
