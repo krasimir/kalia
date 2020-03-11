@@ -1,12 +1,12 @@
 # Kalia
 
-Kalia is a [VSCode](https://code.visualstudio.com/) theme for those of you that like dark themes. But it's not just about beautiful colors. Kalia is styling your code based on context. Think about a string. If it is used as a function argument is one color and if it is placed as a tag attribute is another.
+Kalia is a [VSCode](https://code.visualstudio.com/) extension/dark theme.
 
-Here are the main characteristics:
+Here is what you get:
 
-* Pastel colors near monochromic
-* Balanced contrast
-* Contextual colors
+* Pastel colors near monochromic. Contextual syntax-highlighting.
+* Balanced contrast.
+* A tick line on the left showing the top function scope.
 
 ![Kalia VSCode Theme](./preview.png)
 
