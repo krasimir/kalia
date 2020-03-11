@@ -8,7 +8,7 @@ Here is what you get:
 * Balanced contrast. Carefully selected styling to help you focus on the code's flow.
 * A tick line on the left showing the top function scope.
 
-![Kalia VSCode Theme](./preview.png)
+![Kalia VSCode Theme](./kalia.png)
 
 ## Installation
 
