@@ -1,6 +1,6 @@
 {
   "name": "kalia",
-  "displayName": "Kalia Theme",
+  "displayName": "Kalia",
   "description": "A thoughtful VS Code color theme",
   "publisher": "krasimir",
   "version": "1.22.0",
@@ -18,10 +18,10 @@
     "vscode": "^1.42.0"
   },
   "categories": [
-    "Themes"
+    "Themes", "Languages"
   ],
   "activationEvents": [
-    "*"
+    "onLanguage:plaintext"
   ],
   "main": "./src/extension.js",
   "contributes": {
@@ -44,6 +44,8 @@
     "@types/vscode": "^1.42.0"
   },
   "dependencies": {
-    "pairify": "1.0.4"
+    "pairify": "1.0.4",
+    "vscode-languageclient": "5.2.1",
+    "vscode-languageserver": "5.2.1"
   }
 }

@@ -299,7 +299,7 @@
 		{
 			"scope": [
 				"markup.heading.markdown"
-			], "settings": { "fontStyle": "bold italic", "foreground": "#cacaca" }
+			], "settings": { "fontStyle": "bold", "foreground": "#e78181" }
 		},
 		{
 			"scope": [

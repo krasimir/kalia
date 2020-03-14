@@ -13,7 +13,7 @@ class widget extends React.Component { }
 const joe = function () { };
 
 const wes = 100;
-
+ 
 function wes() {
 	if (wes === foo && wes >= 200) {
 		let bar = 20;

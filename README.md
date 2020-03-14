@@ -14,7 +14,7 @@ Here is what you get:
 
 * Get VSCode from [here](https://code.visualstudio.com/)
 * Install, open and choose **Extensions** from menu
-* Search for "Kalia Theme"
+* Search for "Kalia"
 * Click **Install** to install it
 * Click **Reload** to reload the editor
 * You can then access the theme from the menu bar click: Code > Preferences > Color Theme > Kalia
