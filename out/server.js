@@ -11,7 +11,7 @@ connection.onInitialize((params) => {
         }
     };
 });
-connection.onInitialized(() => {
+connection.onInitialized((params) => {
     console.log('connection.onInitialized');
     connection.client.register(vscode_languageserver_1.DidChangeConfigurationNotification.type, undefined);
     connection.workspace.onDidChangeWorkspaceFolders(_event => {
@@ -22,13 +22,16 @@ connection.onDidChangeConfiguration(change => {
     console.log('connection.onDidChangeConfiguration');
 });
 documents.onDidClose(e => {
-    console.log('documents.onDidClose');
+    console.log('documents.onDidClose', e.document.uri);
+});
+documents.onDidOpen(e => {
+    console.log('documents.onDidClose', e.document.uri);
 });
 documents.onDidChangeContent(change => {
     console.log('documents.onDidChangeContent');
     const textDocument = change.document;
     let text = textDocument.getText();
-    // console.log(text);
+    connection.sendNotification('KaliaLS:foo', 'hello');
 });
 connection.onDidChangeWatchedFiles(_change => {
     // Monitored files have change in VSCode

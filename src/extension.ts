@@ -7,7 +7,7 @@ import {
 	TransportKind
 } from 'vscode-languageclient';
 
-let client;
+let client: LanguageClient;
 
 const decorations = [];
 
@@ -45,7 +45,9 @@ function startServer(context) {
 	let clientOptions = {
 		documentSelector: [
 			{ scheme: 'file', language: 'javascript' },
-			{ scheme: 'file', language: 'typescript' }
+			{ scheme: 'file', language: 'javascriptreact' },
+			{ scheme: 'file', language: 'typescript' },
+			{ scheme: 'file', language: 'typescriptreact' },
 		],
 		synchronize: {
 			fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
@@ -53,12 +55,17 @@ function startServer(context) {
 	};
 
 	client = new LanguageClient(
-		'languageServerKalia',
-		'Language Server Kalia',
+		'KaliaLS',
+		'KaliaLS',
 		serverOptions,
 		clientOptions
 	);
 	client.start();
+	client.onReady().then(() => {
+		client.onNotification('KaliaLS:foo', data => {
+			console.log(data);
+		});
+	});
 }
 
 function activate(context) {

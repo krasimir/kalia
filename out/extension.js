@@ -39,14 +39,21 @@ function startServer(context) {
     let clientOptions = {
         documentSelector: [
             { scheme: 'file', language: 'javascript' },
-            { scheme: 'file', language: 'typescript' }
+            { scheme: 'file', language: 'javascriptreact' },
+            { scheme: 'file', language: 'typescript' },
+            { scheme: 'file', language: 'typescriptreact' },
         ],
         synchronize: {
             fileEvents: vscode_1.workspace.createFileSystemWatcher('**/.clientrc')
         }
     };
-    client = new vscode_languageclient_1.LanguageClient('languageServerKalia', 'Language Server Kalia', serverOptions, clientOptions);
+    client = new vscode_languageclient_1.LanguageClient('KaliaLS', 'KaliaLS', serverOptions, clientOptions);
     client.start();
+    client.onReady().then(() => {
+        client.onNotification('KaliaLS:foo', data => {
+            console.log(data);
+        });
+    });
 }
 function activate(context) {
     startServer(context);

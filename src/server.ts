@@ -2,11 +2,13 @@ import {
 	createConnection,
 	TextDocuments,
   ProposedFeatures,
-  DidChangeConfigurationNotification
+	DidChangeConfigurationNotification,
+	InitializeParams,
+	RequestType
 } from 'vscode-languageserver';
 
 let connection = createConnection(ProposedFeatures.all);
-let documents = new TextDocuments();
+let documents: TextDocuments = new TextDocuments();
 
 connection.onInitialize((params) => {
   console.log('connection.onInitialize');
@@ -17,7 +19,7 @@ connection.onInitialize((params) => {
 	};
 });
 
-connection.onInitialized(() => {
+connection.onInitialized((params: InitializeParams) => {
   console.log('connection.onInitialized');
   connection.client.register(DidChangeConfigurationNotification.type, undefined);
   connection.workspace.onDidChangeWorkspaceFolders(_event => {
@@ -30,7 +32,10 @@ connection.onDidChangeConfiguration(change => {
 });
 
 documents.onDidClose(e => {
-	console.log('documents.onDidClose');
+	console.log('documents.onDidClose', e.document.uri);
+});
+documents.onDidOpen(e => {
+	console.log('documents.onDidClose', e.document.uri);
 });
 
 documents.onDidChangeContent(change => {
@@ -38,7 +43,7 @@ documents.onDidChangeContent(change => {
 	const textDocument = change.document;
 	let text = textDocument.getText();
 
-	// console.log(text);
+	connection.sendNotification('KaliaLS:foo', 'hello');
 });
 
 connection.onDidChangeWatchedFiles(_change => {

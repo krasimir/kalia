@@ -22,7 +22,10 @@
     "Languages"
   ],
   "activationEvents": [
-    "onLanguage:plaintext"
+    "onLanguage:typescript",
+    "onLanguage:typescriptreact",
+    "onLanguage:javascript",
+    "onLanguage:javascriptreact"
   ],
   "main": "./out/extension.js",
   "contributes": {
