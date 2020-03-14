@@ -232,7 +232,8 @@
 				"keyword.operator.arithmetic",
 				"keyword.control.loop",
 				"keyword.control.flow",
-				"keyword.operator.comparison"
+				"keyword.operator.comparison",
+				"keyword.operator.expression.delete"
 			], "settings": { "foreground": "#b896bb" }
 		},
 		// white
