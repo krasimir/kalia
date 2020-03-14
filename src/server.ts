@@ -1,10 +1,9 @@
-const languageServer = require('vscode-languageserver');
-const {
+import {
 	createConnection,
 	TextDocuments,
   ProposedFeatures,
   DidChangeConfigurationNotification
-} = languageServer;
+} from 'vscode-languageserver';
 
 let connection = createConnection(ProposedFeatures.all);
 let documents = new TextDocuments();
@@ -23,7 +22,7 @@ connection.onInitialized(() => {
   connection.client.register(DidChangeConfigurationNotification.type, undefined);
   connection.workspace.onDidChangeWorkspaceFolders(_event => {
     connection.console.log('Workspace folder change event received.');
-  });
+	});
 });
 
 connection.onDidChangeConfiguration(change => {

@@ -18,12 +18,13 @@
     "vscode": "^1.42.0"
   },
   "categories": [
-    "Themes", "Languages"
+    "Themes",
+    "Languages"
   ],
   "activationEvents": [
     "onLanguage:plaintext"
   ],
-  "main": "./src/extension.js",
+  "main": "./out/extension.js",
   "contributes": {
     "themes": [
       {
@@ -38,10 +39,14 @@
     "theme": "dark"
   },
   "scripts": {
-    "release": "vsce publish minor"
+    "release": "tsc -b && vsce publish minor",
+    "compile": "tsc -b",
+		"dev": "tsc -b -w"
   },
   "devDependencies": {
-    "@types/vscode": "^1.42.0"
+		"@types/node": "^12.11.7",
+    "@types/vscode": "^1.42.0",
+    "typescript": "3.8.3"
   },
   "dependencies": {
     "pairify": "1.0.4",

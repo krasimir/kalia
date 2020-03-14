@@ -1,11 +1,11 @@
-const vscode = require('vscode');
-const pairify = require('pairify');
-const {
+import { window, DecorationRangeBehavior, Range, workspace } from 'vscode';
+import pairify from 'pairify';
+import {
 	LanguageClient,
 	LanguageClientOptions,
 	ServerOptions,
 	TransportKind
-} = require('vscode-languageclient');
+} from 'vscode-languageclient';
 
 let client;
 
@@ -18,14 +18,13 @@ function showEndLineTooltip(textEditor, code, line, text) {
 		return;
 	}
 	const lineLength = code.split('\n')[line].length;
-	const decoration = vscode.window.createTextEditorDecorationType({
+	const decoration = window.createTextEditorDecorationType({
 		after: {
-			rangeBehavior: vscode.DecorationRangeBehavior.OpenOpen,
 			contentText: text,
 			color: 'rgba(255, 255, 255, 0.25)'
 		}
 	});
-	textEditor.setDecorations(decoration, [new vscode.Range(line, 0, line, lineLength)]);
+	textEditor.setDecorations(decoration, [new Range(line, 0, line, lineLength)]);
 	decorations.push(decoration);
 }
 function clearDecorations() {
@@ -34,7 +33,7 @@ function clearDecorations() {
 	}
 }
 function startServer(context) {
-	let serverModule = context.asAbsolutePath('src/server.js');
+	let serverModule = context.asAbsolutePath('out/server.js');
 	let serverOptions = {
 		run: { module: serverModule, transport: TransportKind.ipc },
 		debug: {
@@ -49,7 +48,7 @@ function startServer(context) {
 			{ scheme: 'file', language: 'typescript' }
 		],
 		synchronize: {
-			fileEvents: vscode.workspace.createFileSystemWatcher('**/.clientrc')
+			fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
 		}
 	};
 
@@ -64,7 +63,7 @@ function startServer(context) {
 
 function activate(context) {
 	startServer(context);
-	vscode.window.onDidChangeTextEditorSelection(event => {
+	window.onDidChangeTextEditorSelection(event => {
 		const code = event.textEditor.document.getText();
 		clearDecorations();
 		const selection = event.selections[0];
@@ -75,13 +74,13 @@ function activate(context) {
 			if (pairs.length > 0) {
 				const pair = pairs.pop();
 				if (pair.to[0]-2 - pair.from[0] >= 0) {
-					const scopeDecoration = vscode.window.createTextEditorDecorationType({
-						rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
+					const scopeDecoration = window.createTextEditorDecorationType({
+						rangeBehavior: DecorationRangeBehavior.ClosedClosed,
 						borderColor: 'rgba(77, 184, 211, 0.15)',
 						borderWidth: '1px',
 						borderStyle: 'none none none solid',
 					});
-					event.textEditor.setDecorations(scopeDecoration, [new vscode.Range(pair.from[0], 0, pair.to[0]-2, 0)]);
+					event.textEditor.setDecorations(scopeDecoration, [new Range(pair.from[0], 0, pair.to[0]-2, 0)]);
 					decorations.push(scopeDecoration);
 				}
 			}
