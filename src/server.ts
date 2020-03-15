@@ -8,6 +8,8 @@ import {
 	RequestType
 } from 'vscode-languageserver';
 
+import { analyzeAST } from './utils/analyzeAst';
+
 let connection = createConnection(ProposedFeatures.all);
 let documents: TextDocuments = new TextDocuments();
 const files = {};
@@ -41,11 +43,15 @@ documents.onDidChangeContent(change => {
 	let text = textDocument.getText();
 
 	if (typeof files[textDocument.uri] === 'undefined') {
-		files[textDocument.uri] = { text }
+		files[textDocument.uri] = {
+			text,
+			analysis: analyzeAST(text, 1)
+		}
 	}
 
 	if (files[textDocument.uri].text !== text) {
 		files[textDocument.uri].text = text;
+		files[textDocument.uri].analysis = analyzeAST(text, 1);
 		console.log(`Processing ${path.basename(textDocument.uri)}`);
 	}
 

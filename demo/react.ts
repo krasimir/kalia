@@ -12,4 +12,17 @@ class Helper {
 
 }
 
+const util = () => {
+  function doSomething() {
+    // something
+    new App(() => {
+      // something else
+    });
+  }
+}
+
+function Yes() {
+  
+}
+
 const h = new Helper();
