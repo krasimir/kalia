@@ -7,8 +7,7 @@ import {
 	InitializeParams,
 	RequestType
 } from 'vscode-languageserver';
-
-import { analyzeAST } from './utils/analyzeAst';
+import { analyze } from 'code-inspector';
 
 let connection = createConnection(ProposedFeatures.all);
 let documents: TextDocuments = new TextDocuments();
@@ -45,15 +44,17 @@ documents.onDidChangeContent(change => {
 	if (typeof files[textDocument.uri] === 'undefined') {
 		files[textDocument.uri] = {
 			text,
-			analysis: analyzeAST(text, 1)
+			analysis: analyze(text, 19)
 		}
 	}
 
 	if (files[textDocument.uri].text !== text) {
 		files[textDocument.uri].text = text;
-		files[textDocument.uri].analysis = analyzeAST(text, 1);
+		files[textDocument.uri].analysis = analyze(text, 19);
 		console.log(`Processing ${path.basename(textDocument.uri)}`);
 	}
+
+	console.log('Analysis: ', files[textDocument.uri].analysis);
 
 	connection.sendNotification('KaliaLS:foo', 'hello');
 });

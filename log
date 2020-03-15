@@ -1,4 +1,0 @@
-yarn run v1.21.1
-$ node ./__tests__/index.js
-{ breadcrumbs: [ 'Yes' ] }
-Done in 0.17s.

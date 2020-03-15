@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const vscode_languageserver_1 = require("vscode-languageserver");
-const analyzeAst_1 = require("./utils/analyzeAst");
+const code_inspector_1 = require("code-inspector");
 let connection = vscode_languageserver_1.createConnection(vscode_languageserver_1.ProposedFeatures.all);
 let documents = new vscode_languageserver_1.TextDocuments();
 const files = {};
@@ -32,14 +32,15 @@ documents.onDidChangeContent(change => {
     if (typeof files[textDocument.uri] === 'undefined') {
         files[textDocument.uri] = {
             text,
-            analysis: analyzeAst_1.analyzeAST(text, 1)
+            analysis: code_inspector_1.analyze(text, 19)
         };
     }
     if (files[textDocument.uri].text !== text) {
         files[textDocument.uri].text = text;
-        files[textDocument.uri].analysis = analyzeAst_1.analyzeAST(text, 1);
+        files[textDocument.uri].analysis = code_inspector_1.analyze(text, 19);
         console.log(`Processing ${path.basename(textDocument.uri)}`);
     }
+    console.log('Analysis: ', files[textDocument.uri].analysis);
     connection.sendNotification('KaliaLS:foo', 'hello');
 });
 // connection.onDidChangeWatchedFiles(_change => {
