@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const vscode_languageserver_1 = require("vscode-languageserver");
 const code_inspector_1 = require("code-inspector");
+const constants_1 = require("./constants");
 let connection = vscode_languageserver_1.createConnection(vscode_languageserver_1.ProposedFeatures.all);
 let documents = new vscode_languageserver_1.TextDocuments();
 const files = {};
@@ -22,6 +23,9 @@ connection.onInitialized((params) => {
 connection.onDidChangeConfiguration(change => {
     console.log('connection.onDidChangeConfiguration');
 });
+connection.onNotification(constants_1.EVENTS.NEW_SELECTION, selection => {
+    console.log('server', selection);
+});
 documents.onDidClose(e => {
     delete files[e.document.uri];
 });
@@ -32,16 +36,14 @@ documents.onDidChangeContent(change => {
     if (typeof files[textDocument.uri] === 'undefined') {
         files[textDocument.uri] = {
             text,
-            analysis: code_inspector_1.analyze(text, 19)
+            ast: code_inspector_1.toAST(text)
         };
     }
     if (files[textDocument.uri].text !== text) {
         files[textDocument.uri].text = text;
-        files[textDocument.uri].analysis = code_inspector_1.analyze(text, 19);
-        console.log(`Processing ${path.basename(textDocument.uri)}`);
+        files[textDocument.uri].ast = code_inspector_1.toAST(text);
     }
-    console.log('Analysis: ', files[textDocument.uri].analysis);
-    connection.sendNotification('KaliaLS:foo', 'hello');
+    // connection.sendNotification('KaliaLS:analysis', 'hello');
 });
 // connection.onDidChangeWatchedFiles(_change => {
 // 	// Monitored files have change in VSCode

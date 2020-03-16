@@ -1,9 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const vscode_1 = require("vscode");
-const pairify_1 = require("pairify");
+const pairify = require("pairify");
 const vscode_languageclient_1 = require("vscode-languageclient");
+const constants_1 = require("./constants");
 let client;
+let clientReady = false;
 const decorations = [];
 function showEndLineTooltip(textEditor, code, line, text) {
     const lineText = code.split('\n')[line];
@@ -50,8 +52,10 @@ function startServer(context) {
     client = new vscode_languageclient_1.LanguageClient('KaliaLS', 'KaliaLS', serverOptions, clientOptions);
     client.start();
     client.onReady().then(() => {
-        client.onNotification('KaliaLS:foo', data => {
-            console.log(data);
+        console.log('ready');
+        clientReady = true;
+        client.onNotification(constants_1.EVENTS.ANALYSIS, data => {
+            console.log('client', data);
         });
     });
 }
@@ -62,7 +66,7 @@ function activate(context) {
         clearDecorations();
         const selection = event.selections[0];
         if (selection && selection.start) {
-            const pairs = pairify_1.default
+            const pairs = pairify
                 .match(code, selection.start.line + 1, selection.start.character + 1)
                 .filter(({ type }) => type === 'curly');
             if (pairs.length > 0) {
@@ -77,6 +81,9 @@ function activate(context) {
                     event.textEditor.setDecorations(scopeDecoration, [new vscode_1.Range(pair.from[0], 0, pair.to[0] - 2, 0)]);
                     decorations.push(scopeDecoration);
                 }
+            }
+            if (clientReady) {
+                // client.sendNotification(EVENTS.NEW_SELECTION, 1);
             }
         }
         // showEndLineTooltip(event.textEditor, code, selection.start.line, `  👈${selection.start.line}`);

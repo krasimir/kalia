@@ -7,7 +7,9 @@ import {
 	InitializeParams,
 	RequestType
 } from 'vscode-languageserver';
-import { analyze } from 'code-inspector';
+import { analyze, toAST } from 'code-inspector';
+
+import { EVENTS } from './constants';
 
 let connection = createConnection(ProposedFeatures.all);
 let documents: TextDocuments = new TextDocuments();
@@ -32,6 +34,10 @@ connection.onDidChangeConfiguration(change => {
 	console.log('connection.onDidChangeConfiguration');
 });
 
+connection.onNotification(EVENTS.NEW_SELECTION, selection => {
+	console.log('server', selection);
+})
+
 documents.onDidClose(e => {
 	delete files[e.document.uri];
 });
@@ -44,19 +50,16 @@ documents.onDidChangeContent(change => {
 	if (typeof files[textDocument.uri] === 'undefined') {
 		files[textDocument.uri] = {
 			text,
-			analysis: analyze(text, 19)
+			ast: toAST(text)
 		}
 	}
 
 	if (files[textDocument.uri].text !== text) {
 		files[textDocument.uri].text = text;
-		files[textDocument.uri].analysis = analyze(text, 19);
-		console.log(`Processing ${path.basename(textDocument.uri)}`);
+		files[textDocument.uri].ast = toAST(text);
 	}
 
-	console.log('Analysis: ', files[textDocument.uri].analysis);
-
-	connection.sendNotification('KaliaLS:foo', 'hello');
+	// connection.sendNotification('KaliaLS:analysis', 'hello');
 });
 
 // connection.onDidChangeWatchedFiles(_change => {

@@ -1,5 +1,5 @@
 import { window, DecorationRangeBehavior, Range, workspace } from 'vscode';
-import pairify from 'pairify';
+import * as pairify from 'pairify';
 import {
 	LanguageClient,
 	LanguageClientOptions,
@@ -7,8 +7,10 @@ import {
 	TransportKind
 } from 'vscode-languageclient';
 
-let client: LanguageClient;
+import { EVENTS } from './constants';
 
+let client: LanguageClient;
+let clientReady = false;
 const decorations = [];
 
 function showEndLineTooltip(textEditor, code, line, text) {
@@ -62,8 +64,10 @@ function startServer(context) {
 	);
 	client.start();
 	client.onReady().then(() => {
-		client.onNotification('KaliaLS:foo', data => {
-			console.log(data);
+		console.log('ready');
+		clientReady = true;
+		client.onNotification(EVENTS.ANALYSIS, data => {
+			console.log('client', data);
 		});
 	});
 }
@@ -90,6 +94,9 @@ function activate(context) {
 					event.textEditor.setDecorations(scopeDecoration, [new Range(pair.from[0], 0, pair.to[0]-2, 0)]);
 					decorations.push(scopeDecoration);
 				}
+			}
+			if (clientReady) {
+				// client.sendNotification(EVENTS.NEW_SELECTION, 1);
 			}
 		}
 		// showEndLineTooltip(event.textEditor, code, selection.start.line, `  👈${selection.start.line}`);
