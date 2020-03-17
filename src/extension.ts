@@ -86,7 +86,7 @@ function startServer(context) {
 		client.onNotification(EVENTS.ANALYSIS, ({ analysis, line }) => {
 			if (analysis.breadcrumbs && analysis.breadcrumbs.length > 1) {
 				showEndLineTooltip(
-					line, `  ${analysis.breadcrumbs.join('.')}`
+					line, `  /${analysis.breadcrumbs.join('/')}`
 				);
 			}
 		});
