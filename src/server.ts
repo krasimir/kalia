@@ -34,9 +34,14 @@ connection.onDidChangeConfiguration(change => {
 	console.log('connection.onDidChangeConfiguration');
 });
 
-connection.onNotification(EVENTS.NEW_SELECTION, selection => {
-	console.log('server', selection);
-})
+connection.onNotification(EVENTS.NEW_SELECTION, ({ uri, line }) => {
+	if (files[uri]) {
+		connection.sendNotification(
+			EVENTS.ANALYSIS,
+			{ analysis: analyze(files[uri].ast, line), line }
+		);
+	}
+});
 
 documents.onDidClose(e => {
 	delete files[e.document.uri];

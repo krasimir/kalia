@@ -23,8 +23,10 @@ connection.onInitialized((params) => {
 connection.onDidChangeConfiguration(change => {
     console.log('connection.onDidChangeConfiguration');
 });
-connection.onNotification(constants_1.EVENTS.NEW_SELECTION, selection => {
-    console.log('server', selection);
+connection.onNotification(constants_1.EVENTS.NEW_SELECTION, ({ uri, line }) => {
+    if (files[uri]) {
+        connection.sendNotification(constants_1.EVENTS.ANALYSIS, { analysis: code_inspector_1.analyze(files[uri].ast, line), line });
+    }
 });
 documents.onDidClose(e => {
     delete files[e.document.uri];

@@ -7,13 +7,18 @@ import {
 	TransportKind
 } from 'vscode-languageclient';
 
-import { EVENTS } from './constants';
+import { EVENTS, TOOLTIP_COLOR } from './constants';
 
 let client: LanguageClient;
 let clientReady = false;
-const decorations = [];
+let decorations = [];
+let tooltipDecorations = [];
+let tooltipDecorationInterval;
 
-function showEndLineTooltip(textEditor, code, line, text) {
+function showEndLineTooltip(line, text) {
+	line -= 1;
+	const textEditor = window.activeTextEditor;
+	const code = textEditor.document.getText();
 	const lineText = code.split('\n')[line];
 	if (typeof lineText === 'undefined') {
 		console.log(`Kalia: no line #${line}`);
@@ -23,15 +28,27 @@ function showEndLineTooltip(textEditor, code, line, text) {
 	const decoration = window.createTextEditorDecorationType({
 		after: {
 			contentText: text,
-			color: 'rgba(255, 255, 255, 0.25)'
+			color: TOOLTIP_COLOR
 		}
 	});
 	textEditor.setDecorations(decoration, [new Range(line, 0, line, lineLength)]);
-	decorations.push(decoration);
+	tooltipDecorations.push(decoration);
+	if (tooltipDecorationInterval) {
+		clearTimeout(tooltipDecorationInterval);
+	}
+	tooltipDecorationInterval = setTimeout(() => {
+		decoration.dispose();
+		tooltipDecorations = tooltipDecorations.filter(d => d !== decoration);
+	}, 2000);
 }
 function clearDecorations() {
 	if (decorations.length > 0) {
-		decorations.forEach(d => d.dispose())
+		decorations.forEach(d => d.dispose());
+		decorations = [];
+	}
+	if (tooltipDecorations.length > 0) {
+		tooltipDecorations.forEach(d => d.dispose())
+		tooltipDecorations = [];
 	}
 }
 function startServer(context) {
@@ -66,8 +83,12 @@ function startServer(context) {
 	client.onReady().then(() => {
 		console.log('ready');
 		clientReady = true;
-		client.onNotification(EVENTS.ANALYSIS, data => {
-			console.log('client', data);
+		client.onNotification(EVENTS.ANALYSIS, ({ analysis, line }) => {
+			if (analysis.breadcrumbs && analysis.breadcrumbs.length > 0) {
+				showEndLineTooltip(
+					line, `  🔨${analysis.breadcrumbs.join('.')}`
+				);
+			}
 		});
 	});
 }
@@ -75,10 +96,10 @@ function startServer(context) {
 function activate(context) {
 	startServer(context);
 	window.onDidChangeTextEditorSelection(event => {
-		const code = event.textEditor.document.getText();
+		const code = window.activeTextEditor.document.getText();
 		clearDecorations();
 		const selection = event.selections[0];
-		if (selection && selection.start) {
+		if (selection && selection.start && event.textEditor.document === window.activeTextEditor.document) {
 			const pairs = pairify
 				.match(code, selection.start.line + 1, selection.start.character + 1)
 				.filter(({ type }) => type === 'curly');
@@ -96,10 +117,15 @@ function activate(context) {
 				}
 			}
 			if (clientReady) {
-				// client.sendNotification(EVENTS.NEW_SELECTION, 1);
+				client.sendNotification(
+					EVENTS.NEW_SELECTION,
+					{
+						line: selection.start.line + 1,
+						uri: window.activeTextEditor.document.uri.toString()
+					}
+				);
 			}
 		}
-		// showEndLineTooltip(event.textEditor, code, selection.start.line, `  👈${selection.start.line}`);
 	});
 }
 
