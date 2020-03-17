@@ -7,7 +7,7 @@ import {
 	TransportKind
 } from 'vscode-languageclient';
 
-import { EVENTS, TOOLTIP_COLOR } from './constants';
+import { EVENTS, TOOLTIP_COLOR, TOOLTIP_HIDE_INTERVAL } from './constants';
 
 let client: LanguageClient;
 let clientReady = false;
@@ -39,7 +39,7 @@ function showEndLineTooltip(line, text) {
 	tooltipDecorationInterval = setTimeout(() => {
 		decoration.dispose();
 		tooltipDecorations = tooltipDecorations.filter(d => d !== decoration);
-	}, 2000);
+	}, TOOLTIP_HIDE_INTERVAL);
 }
 function clearDecorations() {
 	if (decorations.length > 0) {
@@ -86,7 +86,7 @@ function startServer(context) {
 		client.onNotification(EVENTS.ANALYSIS, ({ analysis, line }) => {
 			if (analysis.breadcrumbs && analysis.breadcrumbs.length > 0) {
 				showEndLineTooltip(
-					line, `  🔨${analysis.breadcrumbs.join('.')}`
+					line, `  🔨 ${analysis.breadcrumbs.join('.')}`
 				);
 			}
 		});

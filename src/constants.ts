@@ -3,3 +3,4 @@ export enum EVENTS {
   ANALYSIS = 'KALIA_LS_ANALYSIS'
 }
 export const TOOLTIP_COLOR = 'rgba(255, 255, 255, 0.20)';
+export const TOOLTIP_HIDE_INTERVAL = 5000;

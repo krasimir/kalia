@@ -33,7 +33,7 @@ function showEndLineTooltip(line, text) {
     tooltipDecorationInterval = setTimeout(() => {
         decoration.dispose();
         tooltipDecorations = tooltipDecorations.filter(d => d !== decoration);
-    }, 2000);
+    }, constants_1.TOOLTIP_HIDE_INTERVAL);
 }
 function clearDecorations() {
     if (decorations.length > 0) {
@@ -73,7 +73,7 @@ function startServer(context) {
         clientReady = true;
         client.onNotification(constants_1.EVENTS.ANALYSIS, ({ analysis, line }) => {
             if (analysis.breadcrumbs && analysis.breadcrumbs.length > 0) {
-                showEndLineTooltip(line, `  🔨${analysis.breadcrumbs.join('.')}`);
+                showEndLineTooltip(line, `  🔨 ${analysis.breadcrumbs.join('.')}`);
             }
         });
     });
