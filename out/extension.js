@@ -72,8 +72,8 @@ function startServer(context) {
         console.log('ready');
         clientReady = true;
         client.onNotification(constants_1.EVENTS.ANALYSIS, ({ analysis, line }) => {
-            if (analysis.breadcrumbs && analysis.breadcrumbs.length > 0) {
-                showEndLineTooltip(line, `  🔨 ${analysis.breadcrumbs.join('.')}`);
+            if (analysis.breadcrumbs && analysis.breadcrumbs.length > 1) {
+                showEndLineTooltip(line, `  /${analysis.breadcrumbs.join('.')}`);
             }
         });
     });
