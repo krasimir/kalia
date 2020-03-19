@@ -53,7 +53,7 @@
     "typescript": "3.8.3"
   },
   "dependencies": {
-    "code-inspector": "0.5.1",
+    "code-inspector": "0.6.0",
     "pairify": "1.0.4",
     "vscode-languageclient": "5.2.1",
     "vscode-languageserver": "5.2.1"
