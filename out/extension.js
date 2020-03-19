@@ -7,8 +7,8 @@ const constants_1 = require("./constants");
 let client;
 let clientReady = false;
 let decorations = [];
-let tooltipDecorations = [];
-let tooltipDecorationInterval;
+let tooltipDecoration = null;
+let tooltipShowDecorationInterval;
 function showEndLineTooltip(line, text) {
     line -= 1;
     const textEditor = vscode_1.window.activeTextEditor;
@@ -25,24 +25,24 @@ function showEndLineTooltip(line, text) {
             color: constants_1.TOOLTIP_COLOR
         }
     });
-    textEditor.setDecorations(decoration, [new vscode_1.Range(line, 0, line, lineLength)]);
-    tooltipDecorations.push(decoration);
-    if (tooltipDecorationInterval) {
-        clearTimeout(tooltipDecorationInterval);
+    if (tooltipShowDecorationInterval) {
+        clearTimeout(tooltipShowDecorationInterval);
     }
-    tooltipDecorationInterval = setTimeout(() => {
-        decoration.dispose();
-        tooltipDecorations = tooltipDecorations.filter(d => d !== decoration);
-    }, constants_1.TOOLTIP_HIDE_INTERVAL);
+    if (tooltipDecoration) {
+        tooltipDecoration.dispose();
+    }
+    tooltipShowDecorationInterval = setTimeout(() => {
+        textEditor.setDecorations(decoration, [new vscode_1.Range(line, 0, line, lineLength)]);
+        tooltipDecoration = decoration;
+    }, constants_1.TOOLTIP_SHOW_INTERVAL);
 }
 function clearDecorations() {
     if (decorations.length > 0) {
         decorations.forEach(d => d.dispose());
         decorations = [];
     }
-    if (tooltipDecorations.length > 0) {
-        tooltipDecorations.forEach(d => d.dispose());
-        tooltipDecorations = [];
+    if (tooltipDecoration) {
+        tooltipDecoration.dispose();
     }
 }
 function startServer(context) {

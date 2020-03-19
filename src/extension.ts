@@ -7,13 +7,13 @@ import {
 	TransportKind
 } from 'vscode-languageclient';
 
-import { EVENTS, TOOLTIP_COLOR, TOOLTIP_HIDE_INTERVAL } from './constants';
+import { EVENTS, TOOLTIP_COLOR, TOOLTIP_SHOW_INTERVAL } from './constants';
 
 let client: LanguageClient;
 let clientReady = false;
 let decorations = [];
-let tooltipDecorations = [];
-let tooltipDecorationInterval;
+let tooltipDecoration = null;
+let tooltipShowDecorationInterval;
 
 function showEndLineTooltip(line, text) {
 	line -= 1;
@@ -31,24 +31,25 @@ function showEndLineTooltip(line, text) {
 			color: TOOLTIP_COLOR
 		}
 	});
-	textEditor.setDecorations(decoration, [new Range(line, 0, line, lineLength)]);
-	tooltipDecorations.push(decoration);
-	if (tooltipDecorationInterval) {
-		clearTimeout(tooltipDecorationInterval);
+	
+	if (tooltipShowDecorationInterval) {
+		clearTimeout(tooltipShowDecorationInterval);
 	}
-	tooltipDecorationInterval = setTimeout(() => {
-		decoration.dispose();
-		tooltipDecorations = tooltipDecorations.filter(d => d !== decoration);
-	}, TOOLTIP_HIDE_INTERVAL);
+	if (tooltipDecoration) {
+		tooltipDecoration.dispose();
+	}
+	tooltipShowDecorationInterval = setTimeout(() => {
+		textEditor.setDecorations(decoration, [new Range(line, 0, line, lineLength)]);
+		tooltipDecoration = decoration;
+	}, TOOLTIP_SHOW_INTERVAL);
 }
 function clearDecorations() {
 	if (decorations.length > 0) {
 		decorations.forEach(d => d.dispose());
 		decorations = [];
 	}
-	if (tooltipDecorations.length > 0) {
-		tooltipDecorations.forEach(d => d.dispose())
-		tooltipDecorations = [];
+	if (tooltipDecoration) {
+		tooltipDecoration.dispose();
 	}
 }
 function startServer(context) {
