@@ -12,10 +12,10 @@
   resolved "https://registry.yarnpkg.com/@types/vscode/-/vscode-1.43.0.tgz#22276e60034c693b33117f1068ffaac0e89522db"
   integrity sha512-kIaR9qzd80rJOxePKpCB/mdy00mz8Apt2QA5Y6rdrKFn13QNFNeP3Hzmsf37Bwh/3cS7QjtAeGSK7wSqAU0sYQ==
 
-code-inspector@0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/code-inspector/-/code-inspector-0.6.0.tgz#d7513e8b6ede28343a04d97f06a0b0012d063392"
-  integrity sha512-cLIXLZqM9Q4LQ57Og3KZran1iTogqt+mZj+GVOY4WBzumFmhY+zlUanfyO5ovjzLopWrYA0m4wmm1myBL0+Jbg==
+code-inspector@0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/code-inspector/-/code-inspector-0.6.1.tgz#a0c82700785e6a54b06af38e7efedfcfe7836649"
+  integrity sha512-zCx/PVcTjlDmu5Oe6oVPBHEYhg2JIMQLDvUMz8ikNSW2hkP3StW//BrRP5InYINiBPiE/t4a27K1oQyTBMIbqA==
 
 pairify@1.0.4:
   version "1.0.4"
