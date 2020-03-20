@@ -7,42 +7,11 @@ const constants_1 = require("./constants");
 let client;
 let clientReady = false;
 let decorations = [];
-let tooltipDecoration = null;
-let tooltipShowDecorationInterval;
-function showEndLineTooltip(line, text) {
-    line -= 1;
-    const textEditor = vscode_1.window.activeTextEditor;
-    const code = textEditor.document.getText();
-    const lineText = code.split('\n')[line];
-    if (typeof lineText === 'undefined') {
-        console.log(`Kalia: no line #${line}`);
-        return;
-    }
-    const lineLength = code.split('\n')[line].length;
-    const decoration = vscode_1.window.createTextEditorDecorationType({
-        after: {
-            contentText: text,
-            color: constants_1.TOOLTIP_COLOR
-        }
-    });
-    if (tooltipShowDecorationInterval) {
-        clearTimeout(tooltipShowDecorationInterval);
-    }
-    if (tooltipDecoration) {
-        tooltipDecoration.dispose();
-    }
-    tooltipShowDecorationInterval = setTimeout(() => {
-        textEditor.setDecorations(decoration, [new vscode_1.Range(line, 0, line, lineLength)]);
-        tooltipDecoration = decoration;
-    }, constants_1.TOOLTIP_SHOW_INTERVAL);
-}
+let currentLineAnalysis;
 function clearDecorations() {
     if (decorations.length > 0) {
         decorations.forEach(d => d.dispose());
         decorations = [];
-    }
-    if (tooltipDecoration) {
-        tooltipDecoration.dispose();
     }
 }
 function startServer(context) {
@@ -72,9 +41,7 @@ function startServer(context) {
         console.log('ready');
         clientReady = true;
         client.onNotification(constants_1.EVENTS.ANALYSIS, ({ analysis, line }) => {
-            if (analysis.breadcrumbs && analysis.breadcrumbs.length > 1) {
-                showEndLineTooltip(line, `  ${analysis.breadcrumbs.join('·')}`);
-            }
+            currentLineAnalysis = analysis;
         });
     });
 }
@@ -85,6 +52,7 @@ function activate(context) {
         clearDecorations();
         const selection = event.selections[0];
         if (selection && selection.start && event.textEditor.document === vscode_1.window.activeTextEditor.document) {
+            // scope line
             const pairs = pairify
                 .match(code, selection.start.line + 1, selection.start.character + 1)
                 .filter(({ type }) => type === 'curly');
@@ -101,6 +69,7 @@ function activate(context) {
                     decorations.push(scopeDecoration);
                 }
             }
+            // scope path
             if (clientReady) {
                 client.sendNotification(constants_1.EVENTS.NEW_SELECTION, {
                     line: selection.start.line + 1,
@@ -109,6 +78,42 @@ function activate(context) {
             }
         }
     });
+    context.subscriptions.push(vscode_1.commands.registerCommand('Kalia.goto', () => {
+        if (!currentLineAnalysis)
+            return;
+        const quickPick = vscode_1.window.createQuickPick();
+        quickPick.title = 'Enter keywords for snippet search (e.g. "read file")';
+        quickPick.items = currentLineAnalysis.breadcrumbs.map(what => {
+            return { label: what };
+        });
+        quickPick.onDidChangeValue(() => {
+            quickPick.activeItems = [];
+        });
+        quickPick.onDidAccept(() => {
+            let search = "";
+            console.log(quickPick.activeItems);
+            quickPick.hide();
+        });
+        quickPick.show();
+    }));
+    const provider = vscode_1.languages.registerCompletionItemProvider([
+        { scheme: 'file', language: 'javascript' },
+        { scheme: 'file', language: 'javascriptreact' },
+        { scheme: 'file', language: 'typescript' },
+        { scheme: 'file', language: 'typescriptreact' },
+    ], {
+        provideCompletionItems(document, position, token, context) {
+            const item = new vscode_1.CompletionItem('goto');
+            item.kind = vscode_1.CompletionItemKind.Keyword;
+            item.insertText = '';
+            item.command = {
+                command: 'Kalia.goto',
+                title: 'Kalia.goto'
+            };
+            return [item];
+        }
+    });
+    context.subscriptions.push(provider);
 }
 function deactivate() {
     if (client) {

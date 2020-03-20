@@ -35,6 +35,12 @@
         "uiTheme": "vs-dark",
         "path": "./themes/Kalia-color-theme.json"
       }
+    ],
+    "commands": [
+      {
+        "command": "Kalia.goto",
+        "title": "Kalia goto"
+      }
     ]
   },
   "galleryBanner": {

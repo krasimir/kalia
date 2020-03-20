@@ -1,55 +1,33 @@
-import { window, DecorationRangeBehavior, Range, workspace } from 'vscode';
+import {
+	window,
+	DecorationRangeBehavior,
+	Range,
+	workspace,
+	commands,
+	languages,
+	TextDocument,
+	CancellationToken,
+	CompletionContext,
+	CompletionItem,
+	CompletionItemKind
+} from 'vscode';
 import * as pairify from 'pairify';
 import {
 	LanguageClient,
-	LanguageClientOptions,
-	ServerOptions,
 	TransportKind
 } from 'vscode-languageclient';
 
-import { EVENTS, TOOLTIP_COLOR, TOOLTIP_SHOW_INTERVAL } from './constants';
+import { EVENTS } from './constants';
 
 let client: LanguageClient;
 let clientReady = false;
 let decorations = [];
-let tooltipDecoration = null;
-let tooltipShowDecorationInterval;
+let currentLineAnalysis;
 
-function showEndLineTooltip(line, text) {
-	line -= 1;
-	const textEditor = window.activeTextEditor;
-	const code = textEditor.document.getText();
-	const lineText = code.split('\n')[line];
-	if (typeof lineText === 'undefined') {
-		console.log(`Kalia: no line #${line}`);
-		return;
-	}
-	const lineLength = code.split('\n')[line].length;
-	const decoration = window.createTextEditorDecorationType({
-		after: {
-			contentText: text,
-			color: TOOLTIP_COLOR
-		}
-	});
-	
-	if (tooltipShowDecorationInterval) {
-		clearTimeout(tooltipShowDecorationInterval);
-	}
-	if (tooltipDecoration) {
-		tooltipDecoration.dispose();
-	}
-	tooltipShowDecorationInterval = setTimeout(() => {
-		textEditor.setDecorations(decoration, [new Range(line, 0, line, lineLength)]);
-		tooltipDecoration = decoration;
-	}, TOOLTIP_SHOW_INTERVAL);
-}
 function clearDecorations() {
 	if (decorations.length > 0) {
 		decorations.forEach(d => d.dispose());
 		decorations = [];
-	}
-	if (tooltipDecoration) {
-		tooltipDecoration.dispose();
 	}
 }
 function startServer(context) {
@@ -85,22 +63,21 @@ function startServer(context) {
 		console.log('ready');
 		clientReady = true;
 		client.onNotification(EVENTS.ANALYSIS, ({ analysis, line }) => {
-			if (analysis.breadcrumbs && analysis.breadcrumbs.length > 1) {
-				showEndLineTooltip(
-					line, `  ${analysis.breadcrumbs.join('·')}`
-				);
-			}
+			currentLineAnalysis = analysis;
 		});
 	});
 }
 
 function activate(context) {
 	startServer(context);
+
 	window.onDidChangeTextEditorSelection(event => {
 		const code = window.activeTextEditor.document.getText();
 		clearDecorations();
 		const selection = event.selections[0];
 		if (selection && selection.start && event.textEditor.document === window.activeTextEditor.document) {
+
+			// scope line
 			const pairs = pairify
 				.match(code, selection.start.line + 1, selection.start.character + 1)
 				.filter(({ type }) => type === 'curly');
@@ -117,6 +94,8 @@ function activate(context) {
 					decorations.push(scopeDecoration);
 				}
 			}
+
+			// scope path
 			if (clientReady) {
 				client.sendNotification(
 					EVENTS.NEW_SELECTION,
@@ -126,8 +105,50 @@ function activate(context) {
 					}
 				);
 			}
+
 		}
 	});
+
+	context.subscriptions.push(
+		commands.registerCommand('Kalia.goto', () => {
+			if (!currentLineAnalysis) return;
+			const quickPick = window.createQuickPick();
+			quickPick.title = 'Enter keywords for snippet search (e.g. "read file")';
+			quickPick.items = currentLineAnalysis.breadcrumbs.map(what => {
+				return { label: what }
+			})
+
+			quickPick.onDidChangeValue(() => {
+				quickPick.activeItems = [];
+			});
+
+			quickPick.onDidAccept(() => {
+				let search = "";
+				console.log(quickPick.activeItems);
+				quickPick.hide();
+			});
+			quickPick.show();
+		})
+	);
+
+	const provider = languages.registerCompletionItemProvider([
+		{ scheme: 'file', language: 'javascript' },
+		{ scheme: 'file', language: 'javascriptreact' },
+		{ scheme: 'file', language: 'typescript' },
+		{ scheme: 'file', language: 'typescriptreact' },
+	], {
+		provideCompletionItems(document: TextDocument, position: any, token: CancellationToken, context: CompletionContext) {
+			const item = new CompletionItem('goto');
+			item.kind = CompletionItemKind.Keyword;
+			item.insertText = '';
+			item.command = {
+				command: 'Kalia.goto',
+				title: 'Kalia.goto'
+			}
+			return [item];
+		}
+	});
+	context.subscriptions.push(provider);
 }
 
 function deactivate() {
