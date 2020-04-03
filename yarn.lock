@@ -551,10 +551,10 @@ cliui@^5.0.0:
     strip-ansi "^5.2.0"
     wrap-ansi "^5.1.0"
 
-code-inspector@1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/code-inspector/-/code-inspector-1.1.5.tgz#e5dab8a5aebfca687e9c94ac1fa0424089080f32"
-  integrity sha512-OEENI4AB+aUpNZnsO0xwv8zQ/unLQvhnh2xBUjzsDwyyd02m91ABgG+mzvEoRxjCgmoJjMq8/EcdTbnExRTrvQ==
+code-inspector@1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/code-inspector/-/code-inspector-1.1.6.tgz#a8003a8ba4a83ec16a17aa7fb9663bf85b2418e4"
+  integrity sha512-PoapYElaHf1AALldd5UxjahA5QbCqVZ8tKK/smlzv27yuJdzcq1E6ImqYV4mB7KKwexbJiGpjExPtghn9c1yfQ==
 
 collection-visit@^1.0.0:
   version "1.0.0"

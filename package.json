@@ -58,14 +58,14 @@
     "@types/lodash": "4.14.149",
     "@types/node": "^12.11.7",
     "@types/vscode": "^1.42.0",
-    "typescript": "3.8.3",
-    "webpack": "4.42.1",
-    "webpack-cli": "3.3.11",
-    "ts-loader": "6.2.2",
-    "code-inspector": "1.1.5",
+    "code-inspector": "1.1.6",
     "lodash": "4.17.15",
     "pairify": "1.0.4",
+    "ts-loader": "6.2.2",
+    "typescript": "3.8.3",
     "vscode-languageclient": "5.2.1",
-    "vscode-languageserver": "5.2.1"
+    "vscode-languageserver": "5.2.1",
+    "webpack": "4.42.1",
+    "webpack-cli": "3.3.11"
   }
 }
