@@ -48,18 +48,20 @@
     "theme": "dark"
   },
   "scripts": {
-    "release": "tsc -b && vsce publish minor",
-    "compile": "tsc -b",
+    "build:client": "webpack --mode production --config webpack.config.client.js",
+    "build:server": "webpack --mode production --config webpack.config.server.js",
+    "release": "yarn build:client && yarn build:server && git add . && git commit -m \"New version\" && git push origin master && vsce publish minor",
     "dev": "tsc -b -w",
     "test": "node ./__tests__/index.js"
   },
   "devDependencies": {
+    "@types/lodash": "4.14.149",
     "@types/node": "^12.11.7",
     "@types/vscode": "^1.42.0",
-    "@types/lodash": "4.14.149",
-    "typescript": "3.8.3"
-  },
-  "dependencies": {
+    "typescript": "3.8.3",
+    "webpack": "4.42.1",
+    "webpack-cli": "3.3.11",
+    "ts-loader": "6.2.2",
     "code-inspector": "1.1.5",
     "lodash": "4.17.15",
     "pairify": "1.0.4",
