@@ -38,7 +38,6 @@ function startServer(context) {
     client = new vscode_languageclient_1.LanguageClient('KaliaLS', 'KaliaLS', serverOptions, clientOptions);
     client.start();
     client.onReady().then(() => {
-        console.log('ready');
         clientReady = true;
         client.onNotification(constants_1.EVENTS.ANALYSIS, ({ analysis, line }) => {
             currentLineAnalysis = analysis;
@@ -79,12 +78,12 @@ function activate(context) {
         }
     });
     context.subscriptions.push(vscode_1.commands.registerCommand('Kalia.goto', () => {
-        if (!currentLineAnalysis)
+        if (!currentLineAnalysis || !currentLineAnalysis.scopes)
             return;
         const quickPick = vscode_1.window.createQuickPick();
         quickPick.title = 'Enter keywords for snippet search (e.g. "read file")';
-        quickPick.items = currentLineAnalysis.breadcrumbs.map(what => {
-            return { label: what };
+        quickPick.items = currentLineAnalysis.scopes.map(node => {
+            return { label: node.text };
         });
         quickPick.onDidChangeValue(() => {
             quickPick.activeItems = [];

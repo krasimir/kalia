@@ -25,7 +25,7 @@ connection.onDidChangeConfiguration(change => {
 });
 connection.onNotification(constants_1.EVENTS.NEW_SELECTION, ({ uri, line }) => {
     if (files[uri]) {
-        connection.sendNotification(constants_1.EVENTS.ANALYSIS, { analysis: code_inspector_1.analyze(files[uri].ast, line), line });
+        connection.sendNotification(constants_1.EVENTS.ANALYSIS, { analysis: code_inspector_1.analyze(files[uri].text), line });
     }
 });
 documents.onDidClose(e => {
@@ -36,14 +36,10 @@ documents.onDidChangeContent(change => {
     console.log(`Working with ${path.basename(textDocument.uri)}`);
     let text = textDocument.getText();
     if (typeof files[textDocument.uri] === 'undefined') {
-        files[textDocument.uri] = {
-            text,
-            ast: code_inspector_1.toAST(text)
-        };
+        files[textDocument.uri] = { text };
     }
     if (files[textDocument.uri].text !== text) {
         files[textDocument.uri].text = text;
-        files[textDocument.uri].ast = code_inspector_1.toAST(text);
     }
     // connection.sendNotification('KaliaLS:analysis', 'hello');
 });

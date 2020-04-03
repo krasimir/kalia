@@ -313,6 +313,16 @@
 				"meta.image.inline.markdown"
 			], "settings": { "fontStyle": "underline", "foreground": "#88b4ee" }
 		},
+		{
+			"scope": [
+				"markup.italic.markdown"
+			], "settings": { "fontStyle": "italic" }
+		},
+		{
+			"scope": [
+				"markup.bold.markdown"
+			], "settings": { "fontStyle": "bold" }
+		},
 		// ******************************** typescript
 		{
 			"scope": [

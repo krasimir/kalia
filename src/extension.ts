@@ -60,7 +60,6 @@ function startServer(context) {
 	);
 	client.start();
 	client.onReady().then(() => {
-		console.log('ready');
 		clientReady = true;
 		client.onNotification(EVENTS.ANALYSIS, ({ analysis, line }) => {
 			currentLineAnalysis = analysis;
@@ -111,11 +110,11 @@ function activate(context) {
 
 	context.subscriptions.push(
 		commands.registerCommand('Kalia.goto', () => {
-			if (!currentLineAnalysis) return;
+			if (!currentLineAnalysis || !currentLineAnalysis.scopes) return;
 			const quickPick = window.createQuickPick();
 			quickPick.title = 'Enter keywords for snippet search (e.g. "read file")';
-			quickPick.items = currentLineAnalysis.breadcrumbs.map(what => {
-				return { label: what }
+			quickPick.items = currentLineAnalysis.scopes.map(node => {
+				return { label: node.text }
 			})
 
 			quickPick.onDidChangeValue(() => {

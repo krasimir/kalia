@@ -7,7 +7,7 @@ import {
 	InitializeParams,
 	RequestType
 } from 'vscode-languageserver';
-import { analyze, toAST } from 'code-inspector';
+import { analyze } from 'code-inspector';
 
 import { EVENTS } from './constants';
 
@@ -38,7 +38,7 @@ connection.onNotification(EVENTS.NEW_SELECTION, ({ uri, line }) => {
 	if (files[uri]) {
 		connection.sendNotification(
 			EVENTS.ANALYSIS,
-			{ analysis: analyze(files[uri].ast, line), line }
+			{ analysis: analyze(files[uri].text), line }
 		);
 	}
 });
@@ -53,15 +53,11 @@ documents.onDidChangeContent(change => {
 	let text = textDocument.getText();
 
 	if (typeof files[textDocument.uri] === 'undefined') {
-		files[textDocument.uri] = {
-			text,
-			ast: toAST(text)
-		}
+		files[textDocument.uri] = { text }
 	}
 
 	if (files[textDocument.uri].text !== text) {
 		files[textDocument.uri].text = text;
-		files[textDocument.uri].ast = toAST(text);
 	}
 
 	// connection.sendNotification('KaliaLS:analysis', 'hello');

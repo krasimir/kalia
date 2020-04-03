@@ -13,3 +13,12 @@
 5. Click **Install** to install it
 6. Click **Reload** to reload the Code
 7. File > Preferences > Color Theme > **Cobalt2**
+
+```javascript
+const a = 12010;
+function test() {
+  return 42
+}
+```
+
+Hello _world_ and **friends**
