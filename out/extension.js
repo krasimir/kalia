@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const vscode_1 = require("vscode");
 const pairify = require("pairify");
 const vscode_languageclient_1 = require("vscode-languageclient");
+const utils_1 = require("./utils");
 const constants_1 = require("./constants");
 let client;
 let clientReady = false;
@@ -80,17 +81,29 @@ function activate(context) {
     context.subscriptions.push(vscode_1.commands.registerCommand('Kalia.goto', () => {
         if (!currentLineAnalysis || !currentLineAnalysis.scopes)
             return;
+        const editor = vscode_1.window.activeTextEditor;
         const quickPick = vscode_1.window.createQuickPick();
         quickPick.title = 'Enter keywords for snippet search (e.g. "read file")';
         quickPick.items = currentLineAnalysis.scopes.map(node => {
-            return { label: node.text };
+            let prefix = '';
+            if (editor.selection.start.line === node.start[0]) {
+                prefix = '👉 ';
+            }
+            return { label: utils_1.indent(node.nesting) + prefix + node.text, node };
         });
         quickPick.onDidChangeValue(() => {
             quickPick.activeItems = [];
         });
         quickPick.onDidAccept(() => {
             let search = "";
-            console.log(quickPick.activeItems);
+            if (quickPick.activeItems && quickPick.activeItems[0]) {
+                const editor = vscode_1.window.activeTextEditor;
+                const { node } = quickPick.activeItems[0];
+                const start = new vscode_1.Position(node.start[0] - 1, node.start[1] - 1);
+                const end = start;
+                editor.selection = new vscode_1.Selection(start, end);
+                editor.revealRange(new vscode_1.Range(start, end));
+            }
             quickPick.hide();
         });
         quickPick.show();

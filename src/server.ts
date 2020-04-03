@@ -11,6 +11,7 @@ import { analyze } from 'code-inspector';
 
 import { EVENTS } from './constants';
 
+const throttle = require('lodash/throttle');
 let connection = createConnection(ProposedFeatures.all);
 let documents: TextDocuments = new TextDocuments();
 const files = {};
@@ -35,21 +36,17 @@ connection.onDidChangeConfiguration(change => {
 });
 
 connection.onNotification(EVENTS.NEW_SELECTION, ({ uri, line }) => {
-	if (files[uri]) {
-		connection.sendNotification(
-			EVENTS.ANALYSIS,
-			{ analysis: analyze(files[uri].text), line }
-		);
-	}
+	// when the cursor moves
 });
 
 documents.onDidClose(e => {
 	delete files[e.document.uri];
 });
 
-documents.onDidChangeContent(change => {
+documents.onDidChangeContent(throttle(change => {
 	const textDocument = change.document;
-	console.log(`Working with ${path.basename(textDocument.uri)}`);
+	const fileName = path.basename(textDocument.uri);
+	console.log(`${fileName} content changed`);
 	let text = textDocument.getText();
 
 	if (typeof files[textDocument.uri] === 'undefined') {
@@ -58,10 +55,20 @@ documents.onDidChangeContent(change => {
 
 	if (files[textDocument.uri].text !== text) {
 		files[textDocument.uri].text = text;
+		try {
+			console.log(`New static analysis issued for ${fileName}`);
+			files[textDocument.uri].analysis = analyze(text);
+			connection.sendNotification(
+				EVENTS.ANALYSIS,
+				{ analysis: files[textDocument.uri].analysis }
+			);
+		} catch(err) {
+			console.log(`The static analysis for ${fileName} failed.`);
+		}
 	}
 
 	// connection.sendNotification('KaliaLS:analysis', 'hello');
-});
+}, 1000));
 
 // connection.onDidChangeWatchedFiles(_change => {
 // 	// Monitored files have change in VSCode

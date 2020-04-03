@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@types/lodash@4.14.149":
+  version "4.14.149"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.149.tgz#1342d63d948c6062838fbf961012f74d4e638440"
+  integrity sha512-ijGqzZt/b7BfzcK9vTrS6MFljQRPn5BFWOx8oE0GYxribu6uV+aA9zZuXI1zc/etK9E8nrgdoF2+LgUw7+9tJQ==
+
 "@types/node@^12.11.7":
   version "12.12.30"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.30.tgz#3501e6f09b954de9c404671cefdbcc5d9d7c45f6"
@@ -12,10 +17,15 @@
   resolved "https://registry.yarnpkg.com/@types/vscode/-/vscode-1.43.0.tgz#22276e60034c693b33117f1068ffaac0e89522db"
   integrity sha512-kIaR9qzd80rJOxePKpCB/mdy00mz8Apt2QA5Y6rdrKFn13QNFNeP3Hzmsf37Bwh/3cS7QjtAeGSK7wSqAU0sYQ==
 
-code-inspector@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/code-inspector/-/code-inspector-1.1.1.tgz#760ae3bd974a68704aa668469ad566eff849dd69"
-  integrity sha512-/6FawpTzFU3JO8tD+fGEcHlROX9OQH6glyRl86xss00CPQeYmGPzN//PREWf1QAYbrGHcQYYjB7k10azCrUWaA==
+code-inspector@1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/code-inspector/-/code-inspector-1.1.5.tgz#e5dab8a5aebfca687e9c94ac1fa0424089080f32"
+  integrity sha512-OEENI4AB+aUpNZnsO0xwv8zQ/unLQvhnh2xBUjzsDwyyd02m91ABgG+mzvEoRxjCgmoJjMq8/EcdTbnExRTrvQ==
+
+lodash@4.17.15:
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
 pairify@1.0.4:
   version "1.0.4"

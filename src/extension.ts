@@ -9,20 +9,24 @@ import {
 	CancellationToken,
 	CompletionContext,
 	CompletionItem,
-	CompletionItemKind
+	CompletionItemKind,
+	Selection,
+	Position
 } from 'vscode';
 import * as pairify from 'pairify';
 import {
 	LanguageClient,
 	TransportKind
 } from 'vscode-languageclient';
+import { indent } from './utils';
 
 import { EVENTS } from './constants';
+import { Analysis } from 'code-inspector';
 
 let client: LanguageClient;
 let clientReady = false;
 let decorations = [];
-let currentLineAnalysis;
+let currentLineAnalysis: Analysis;
 
 function clearDecorations() {
 	if (decorations.length > 0) {
@@ -111,10 +115,15 @@ function activate(context) {
 	context.subscriptions.push(
 		commands.registerCommand('Kalia.goto', () => {
 			if (!currentLineAnalysis || !currentLineAnalysis.scopes) return;
+			const editor = window.activeTextEditor;
 			const quickPick = window.createQuickPick();
 			quickPick.title = 'Enter keywords for snippet search (e.g. "read file")';
 			quickPick.items = currentLineAnalysis.scopes.map(node => {
-				return { label: node.text }
+				let prefix = '';
+				if (editor.selection.start.line === node.start[0]) {
+					prefix = '👉 ';
+				}
+				return { label: indent(node.nesting) + prefix + node.text, node }
 			})
 
 			quickPick.onDidChangeValue(() => {
@@ -123,7 +132,14 @@ function activate(context) {
 
 			quickPick.onDidAccept(() => {
 				let search = "";
-				console.log(quickPick.activeItems);
+				if (quickPick.activeItems && quickPick.activeItems[0]) {
+					const editor = window.activeTextEditor;
+					const { node } = quickPick.activeItems[0] as any;
+					const start = new Position(node.start[0]-1, node.start[1]-1);
+					const end = start;
+					editor.selection = new Selection(start, end);
+					editor.revealRange(new Range(start, end));
+				}
 				quickPick.hide();
 			});
 			quickPick.show();
