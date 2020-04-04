@@ -93,16 +93,16 @@ function gotoCommand() {
 	};
 	const editor = window.activeTextEditor;
 	const quickPick = window.createQuickPick();
-	quickPick.title = 'Enter keywords for snippet search (e.g. "read file")';
+	quickPick.title = 'Enter keywords for search (e.g. "Header.tsx")';
 	quickPick.items = currentLineAnalysis.scopes.map(node => {
-		let postfix = '';
+		let prefix = '$(arrow-small-right) ';
 		if (
-			editor.selection.start.line >= node.start[0] &&
-			editor.selection.start.line <= node.end[0]
+			editor.selection.start.line >= node.start[0]-1 &&
+			editor.selection.start.line <= node.end[0]-1
 		) {
-			postfix = ' 👈';
+			prefix = '$(diff-renamed) ';
 		}
-		return { label: indent(node.nesting) + node.text + postfix, node }
+		return { label: indent(node.nesting) + prefix + node.text, node }
 	})
 
 	quickPick.onDidChangeValue(() => {
