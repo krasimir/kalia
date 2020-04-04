@@ -4,5 +4,6 @@ var EVENTS;
 (function (EVENTS) {
     EVENTS["NEW_SELECTION"] = "KALIA_LS_NEW_SELECTION";
     EVENTS["ANALYSIS"] = "KALIA_LS_ANALYSIS";
+    EVENTS["GENERATE_ANALYSIS"] = "GENERATE_ANALYSIS";
 })(EVENTS = exports.EVENTS || (exports.EVENTS = {}));
 //# sourceMappingURL=constants.js.map

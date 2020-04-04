@@ -1,3 +1,4 @@
+import * as path from 'path';
 import {
 	window,
 	DecorationRangeBehavior,
@@ -27,6 +28,7 @@ let client: LanguageClient;
 let clientReady = false;
 let decorations = [];
 let currentLineAnalysis: Analysis;
+let gotoCommandInterval;
 
 function clearDecorations() {
 	if (decorations.length > 0) {
@@ -71,6 +73,57 @@ function startServer(context) {
 	});
 }
 
+function gotoCommand() {
+	if (gotoCommandInterval) clearTimeout(gotoCommandInterval);
+	if (!currentLineAnalysis || !currentLineAnalysis.scopes) {
+		const currentDocument = window.activeTextEditor.document;
+		setTimeout(gotoCommand, 3000);
+		if (currentDocument) {
+			const uri = currentDocument.uri.toString();
+			window.showInformationMessage(`Code analysis for ${path.basename(uri)} still not ready.`);
+			client.sendNotification(
+				EVENTS.GENERATE_ANALYSIS,
+				{
+					uri,
+					text: currentDocument.getText()
+				}
+			);
+		}
+		return;
+	};
+	const editor = window.activeTextEditor;
+	const quickPick = window.createQuickPick();
+	quickPick.title = 'Enter keywords for snippet search (e.g. "read file")';
+	quickPick.items = currentLineAnalysis.scopes.map(node => {
+		let prefix = '';
+		if (
+			editor.selection.start.line >= node.start[0] &&
+			editor.selection.start.line <= node.end[0]
+		) {
+			prefix = '👉 ';
+		}
+		return { label: indent(node.nesting) + prefix + node.text, node }
+	})
+
+	quickPick.onDidChangeValue(() => {
+		quickPick.activeItems = [];
+	});
+
+	quickPick.onDidAccept(() => {
+		let search = "";
+		if (quickPick.activeItems && quickPick.activeItems[0]) {
+			const editor = window.activeTextEditor;
+			const { node } = quickPick.activeItems[0] as any;
+			const start = new Position(node.start[0]-1, node.start[1]-1);
+			const end = start;
+			editor.selection = new Selection(start, end);
+			editor.revealRange(new Range(start, end));
+		}
+		quickPick.hide();
+	});
+	quickPick.show();
+}
+
 function activate(context) {
 	startServer(context);
 
@@ -98,7 +151,6 @@ function activate(context) {
 				}
 			}
 
-			// scope path
 			if (clientReady) {
 				client.sendNotification(
 					EVENTS.NEW_SELECTION,
@@ -113,37 +165,7 @@ function activate(context) {
 	});
 
 	context.subscriptions.push(
-		commands.registerCommand('Kalia.goto', () => {
-			if (!currentLineAnalysis || !currentLineAnalysis.scopes) return;
-			const editor = window.activeTextEditor;
-			const quickPick = window.createQuickPick();
-			quickPick.title = 'Enter keywords for snippet search (e.g. "read file")';
-			quickPick.items = currentLineAnalysis.scopes.map(node => {
-				let prefix = '';
-				if (editor.selection.start.line === node.start[0]) {
-					prefix = '👉 ';
-				}
-				return { label: indent(node.nesting) + prefix + node.text, node }
-			})
-
-			quickPick.onDidChangeValue(() => {
-				quickPick.activeItems = [];
-			});
-
-			quickPick.onDidAccept(() => {
-				let search = "";
-				if (quickPick.activeItems && quickPick.activeItems[0]) {
-					const editor = window.activeTextEditor;
-					const { node } = quickPick.activeItems[0] as any;
-					const start = new Position(node.start[0]-1, node.start[1]-1);
-					const end = start;
-					editor.selection = new Selection(start, end);
-					editor.revealRange(new Range(start, end));
-				}
-				quickPick.hide();
-			});
-			quickPick.show();
-		})
+		commands.registerCommand('Kalia.goto', gotoCommand)
 	);
 
 	const provider = languages.registerCompletionItemProvider([

@@ -41,6 +41,14 @@
         "command": "Kalia.goto",
         "title": "Kalia goto"
       }
+    ],
+    "keybindings": [
+      {
+        "command": "Kalia.goto",
+        "key": "ctrl+f1",
+        "mac": "cmd+f1",
+        "when": "editorTextFocus"
+      }
     ]
   },
   "galleryBanner": {

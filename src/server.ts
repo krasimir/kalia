@@ -16,6 +16,29 @@ let connection = createConnection(ProposedFeatures.all);
 let documents: TextDocuments = new TextDocuments();
 const files = {};
 
+function generateAnalysis(uri, text) {
+	const fileName = path.basename(uri);
+	console.log(`Generating static analysis for ${fileName}`, text.length);
+
+	if (typeof files[uri] === 'undefined') {
+		files[uri] = {}
+	}
+
+	if (files[uri].text !== text) {
+		files[uri].text = text;
+		try {
+			console.log(`New static analysis issued for ${fileName}`);
+			files[uri].analysis = analyze(text);
+			connection.sendNotification(
+				EVENTS.ANALYSIS,
+				{ analysis: files[uri].analysis }
+			);
+		} catch(err) {
+			console.log(`The static analysis for ${fileName} failed.`);
+		}
+	}
+}
+
 connection.onInitialize((params) => {
 	return {
 		capabilities: {
@@ -38,42 +61,22 @@ connection.onDidChangeConfiguration(change => {
 connection.onNotification(EVENTS.NEW_SELECTION, ({ uri, line }) => {
 	// when the cursor moves
 });
+connection.onNotification(EVENTS.GENERATE_ANALYSIS, ({ uri, text }) => {
+	generateAnalysis(uri, text);
+});
 
 documents.onDidClose(e => {
 	delete files[e.document.uri];
 });
 
 documents.onDidChangeContent(throttle(change => {
-	const textDocument = change.document;
-	const fileName = path.basename(textDocument.uri);
-	console.log(`${fileName} content changed`);
-	let text = textDocument.getText();
+	generateAnalysis(change.document.uri, change.document.getText());
+}, 1500));
 
-	if (typeof files[textDocument.uri] === 'undefined') {
-		files[textDocument.uri] = { text }
-	}
-
-	if (files[textDocument.uri].text !== text) {
-		files[textDocument.uri].text = text;
-		try {
-			console.log(`New static analysis issued for ${fileName}`);
-			files[textDocument.uri].analysis = analyze(text);
-			connection.sendNotification(
-				EVENTS.ANALYSIS,
-				{ analysis: files[textDocument.uri].analysis }
-			);
-		} catch(err) {
-			console.log(`The static analysis for ${fileName} failed.`);
-		}
-	}
-
-	// connection.sendNotification('KaliaLS:analysis', 'hello');
-}, 1000));
-
-// connection.onDidChangeWatchedFiles(_change => {
-// 	// Monitored files have change in VSCode
-// 	connection.console.log('We received an file change event');
-// });
+connection.onDidChangeWatchedFiles(_change => {
+	// Monitored files have change in VSCode
+	connection.console.log('We received an file change event');
+});
 // connection.onDidOpenTextDocument((params) => {
 // 	// A text document got opened in VSCode.
 // 	// params.textDocument.uri uniquely identifies the document. For documents store on disk this is a file URI.
