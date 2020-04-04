@@ -95,14 +95,14 @@ function gotoCommand() {
 	const quickPick = window.createQuickPick();
 	quickPick.title = 'Enter keywords for snippet search (e.g. "read file")';
 	quickPick.items = currentLineAnalysis.scopes.map(node => {
-		let prefix = '';
+		let postfix = '';
 		if (
 			editor.selection.start.line >= node.start[0] &&
 			editor.selection.start.line <= node.end[0]
 		) {
-			prefix = '👉 ';
+			postfix = ' 👈';
 		}
-		return { label: indent(node.nesting) + prefix + node.text, node }
+		return { label: indent(node.nesting) + node.text + postfix, node }
 	})
 
 	quickPick.onDidChangeValue(() => {

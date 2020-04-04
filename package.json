@@ -45,8 +45,8 @@
     "keybindings": [
       {
         "command": "Kalia.goto",
-        "key": "ctrl+f1",
-        "mac": "cmd+f1",
+        "key": "ctrl+g ctrl+g",
+        "mac": "cmd+g cmd+g",
         "when": "editorTextFocus"
       }
     ]
