@@ -18,7 +18,7 @@ const files = {};
 
 function generateAnalysis(uri, text) {
 	const fileName = path.basename(uri);
-	console.log(`Generating static analysis for ${fileName}`, text.length);
+	console.log(`Generating analysis for ${fileName}`, text.length);
 
 	if (typeof files[uri] === 'undefined') {
 		files[uri] = {}
@@ -27,15 +27,27 @@ function generateAnalysis(uri, text) {
 	if (files[uri].text !== text) {
 		files[uri].text = text;
 		try {
-			console.log(`New static analysis issued for ${fileName}`);
+			console.log(`New analysis issued for ${fileName}`);
 			files[uri].analysis = analyze(text);
 			connection.sendNotification(
 				EVENTS.ANALYSIS,
-				{ analysis: files[uri].analysis }
+				{
+					analysis: files[uri].analysis,
+					uri
+				}
 			);
 		} catch(err) {
-			console.log(`The static analysis for ${fileName} failed.`);
+			console.log(`The analysis for ${fileName} failed.`);
 		}
+	} else {
+		console.log(`Cached analysis returned for ${fileName}`);
+		connection.sendNotification(
+			EVENTS.ANALYSIS,
+			{
+				analysis: files[uri].analysis,
+				uri
+			}
+		);
 	}
 }
 

@@ -22,12 +22,12 @@ import {
 import { indent } from './utils';
 
 import { EVENTS } from './constants';
-import { Analysis } from 'code-inspector';
+import { Analysis, sort, isVariable } from 'code-inspector';
 
 let client: LanguageClient;
 let clientReady = false;
 let decorations = [];
-let currentLineAnalysis: Analysis;
+let analyses: Record<string, Analysis> = {};
 let gotoCommandInterval;
 
 function clearDecorations() {
@@ -67,20 +67,21 @@ function startServer(context) {
 	client.start();
 	client.onReady().then(() => {
 		clientReady = true;
-		client.onNotification(EVENTS.ANALYSIS, ({ analysis, line }) => {
-			currentLineAnalysis = analysis;
+		client.onNotification(EVENTS.ANALYSIS, ({ analysis, uri }) => {
+			analyses[uri] = analysis;
 		});
 	});
 }
 
 function gotoCommand() {
-	if (gotoCommandInterval) clearTimeout(gotoCommandInterval);
-	if (!currentLineAnalysis || !currentLineAnalysis.scopes) {
-		const currentDocument = window.activeTextEditor.document;
-		setTimeout(gotoCommand, 3000);
+	const currentDocument = window.activeTextEditor.document;
+	const uri = currentDocument ? currentDocument.uri.toString() : '';
+
+	if (!analyses[uri]) {
+		if (gotoCommandInterval) clearTimeout(gotoCommandInterval);
+		gotoCommandInterval = setTimeout(gotoCommand, 3000);
 		if (currentDocument) {
-			const uri = currentDocument.uri.toString();
-			window.showInformationMessage(`Code analysis for ${path.basename(uri)} still not ready.`);
+			window.showInformationMessage(`Code analysis for ${path.basename(uri)} in progress.`);
 			client.sendNotification(
 				EVENTS.GENERATE_ANALYSIS,
 				{
@@ -91,19 +92,27 @@ function gotoCommand() {
 		}
 		return;
 	};
+	const nodes = sort([].concat(analyses[uri].variables, analyses[uri].scopes));
 	const editor = window.activeTextEditor;
 	const quickPick = window.createQuickPick();
 	quickPick.title = 'Enter keywords for search (e.g. "Header.tsx")';
-	quickPick.items = currentLineAnalysis.scopes.map(node => {
-		let prefix = '$(arrow-small-right) ';
+
+	quickPick.items = nodes
+	.filter(node => node.type !== 'Program')
+	.map(node => {
+		let prefix = '$(symbol-function) ';
+		let postfix = '';
 		if (
 			editor.selection.start.line >= node.start[0]-1 &&
 			editor.selection.start.line <= node.end[0]-1
 		) {
-			prefix = '$(diff-renamed) ';
+			postfix = ' 👈';
 		}
-		return { label: indent(node.nesting) + prefix + node.text, node }
-	})
+		if (isVariable(node)) {
+			prefix = '$(symbol-variable) ';
+		}
+		return { label: indent(node.nesting - 1) + prefix + node.text + postfix, node }
+	});
 
 	quickPick.onDidChangeValue(() => {
 		quickPick.activeItems = [];
