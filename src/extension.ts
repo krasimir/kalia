@@ -95,10 +95,15 @@ function gotoCommand() {
 	const nodes = sort([].concat(analyses[uri].variables, analyses[uri].scopes));
 	const editor = window.activeTextEditor;
 	const quickPick = window.createQuickPick();
+	const ignoreScopeNodes = [
+		'WhileStatement',
+		'Program'
+	];
+
 	quickPick.title = 'Enter keywords for search (e.g. "Header.tsx")';
 
 	quickPick.items = nodes
-	.filter(node => node.type !== 'Program')
+	.filter(node => !ignoreScopeNodes.includes(node.type))
 	.map(node => {
 		let prefix = '$(symbol-function) ';
 		let postfix = '';
