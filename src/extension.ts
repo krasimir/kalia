@@ -182,23 +182,32 @@ function activate(context) {
 		commands.registerCommand('Kalia.goto', gotoCommand)
 	);
 
-	const provider = languages.registerCompletionItemProvider([
-		{ scheme: 'file', language: 'javascript' },
-		{ scheme: 'file', language: 'javascriptreact' },
-		{ scheme: 'file', language: 'typescript' },
-		{ scheme: 'file', language: 'typescriptreact' },
-	], {
-		provideCompletionItems(document: TextDocument, position: any, token: CancellationToken, context: CompletionContext) {
-			const item = new CompletionItem('goto');
-			item.kind = CompletionItemKind.Keyword;
-			item.insertText = '';
-			item.command = {
-				command: 'Kalia.goto',
-				title: 'Kalia.goto'
+	const provider = languages.registerCompletionItemProvider(
+		[
+			{ scheme: 'file', language: 'javascript' },
+			{ scheme: 'file', language: 'javascriptreact' },
+			{ scheme: 'file', language: 'typescript' },
+			{ scheme: 'file', language: 'typescriptreact' },
+		],
+		{
+			provideCompletionItems(
+				document: TextDocument,
+				position: any,
+				token: CancellationToken,
+				context: CompletionContext
+			) {
+				const item = new CompletionItem('goto');
+				item.kind = CompletionItemKind.Keyword;
+				item.insertText = '';
+				item.command = {
+					command: 'Kalia.goto',
+					title: 'Kalia.goto'
+				}
+				return [item];
 			}
-			return [item];
 		}
-	});
+	);
+
 	context.subscriptions.push(provider);
 }
 
