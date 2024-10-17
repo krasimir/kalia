@@ -74,6 +74,7 @@
     "vscode-languageclient": "9.0.1",
     "vscode-languageserver": "9.0.1",
     "webpack": "5.95.0",
-    "webpack-cli": "5.1.4"
+    "webpack-cli": "5.1.4",
+    "@vscode/vsce": "2.19.0"
   }
 }
