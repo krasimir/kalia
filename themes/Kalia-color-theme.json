@@ -36,7 +36,7 @@
     "editor.foldBackground": "#060606", // folder block background
 
     "editorBracketMatch.background": "#414141", // bracket match
-    "editorBracketMatch.border": "#000",
+    "editorBracketMatch.border": "#414141",
 
     "editorCursor.foreground": "#9e9e9e", // cursor
     "editorError.foreground": "#ff0032",
@@ -47,8 +47,8 @@
     "editorGutter.modifiedBackground": "#255a7a", // modified lines
     "editorIndentGuide.background": "#0f0a0d",
 
-    "editorLineNumber.activeForeground": "#5c5c5c",
-    "editorLineNumber.foreground": "#1d1d1d",
+    "editorLineNumber.activeForeground": "#c2c2c2",
+    "editorLineNumber.foreground": "#3e3e3e",
 
     "editor.lineHighlightBackground": "#090909", // current line background color
     "editor.lineHighlightBorder": "#090909",
@@ -89,7 +89,7 @@
 
     "foreground": "#fff",
 
-    "gitDecoration.ignoredResourceForeground": "#2e2e37",
+    "gitDecoration.ignoredResourceForeground": "#7849b9",
     "gitDecoration.modifiedResourceForeground": "#5896bd", // in files tree
     "gitDecoration.untrackedResourceForeground": "#52ce84",
     "gitDecoration.conflictingResourceForeground": "#ff0000",
@@ -136,7 +136,7 @@
     "scrollbarSlider.hoverBackground": "#ffffff54",
 
     "sideBar.background": "#000",
-    "sideBar.foreground": "#777777",
+    "sideBar.foreground": "#c7c7c7",
     "sideBarSectionHeader.background": "#0a0b0f",
     "sideBarSectionHeader.foreground": "#777777",
     "sideBarTitle.foreground": "#5a5a5a",
@@ -231,7 +231,7 @@
         "keyword.operator.comparison",
         "keyword.operator.expression.delete"
       ],
-      "settings": { "foreground": "#b896bb" }
+      "settings": { "foreground": "#b68cba" }
     },
     // white
     {
@@ -264,7 +264,7 @@
     // strings
     {
       "scope": ["string.quoted.double", "string.quoted.single", "string.template"],
-      "settings": { "foreground": "#b0cab2" }
+      "settings": { "foreground": "#9ac99d" }
     },
     // dim
     {
