@@ -19,14 +19,17 @@
     "dropdown.border": "#1e1d27",
     "dropdown.foreground": "#fff",
     "editor.background": "#090909", // main editor background
-    "editor.findMatchBackground": "#34463a",
-    "editor.findMatchHighlightBackground": "#34463a",
+    "editor.findMatchBackground": "#229448",
+    "editor.findMatchForeground": "#fff",
+    "editor.findMatchHighlightBackground": "#5b7d66",
     "editor.focusedStackFrameHighlightBackground": "#f909",
     "editor.foreground": "#c7c7c7", // main color of the text
     "editor.selectionBackground": "#4b4b4b",
     "editor.selectionForeground": "#fff",
     "editor.selectionHighlightBorder": "#46e7fc3f",
     "editor.stackFrameHighlightBackground": "#ff99004c",
+    "searchEditor.findMatchBackground": "#229448",
+    "search.resultsInfoForeground": "#fff",
 
     "editor.wordHighlightBackground": "#2e2e2e", // highlighting words
     "editor.wordHighlightStrongBackground": "#3a3a3a",
@@ -113,7 +116,7 @@
     "list.hoverBackground": "#0a0b0f",
     "list.inactiveSelectionBackground": "#313131",
     "list.inactiveSelectionForeground": "#ffffff",
-    "list.highlightForeground": "#ff0000",
+    "list.highlightForeground": "#38d85d",
 
     "panel.background": "#0a0b0f",
     "panel.border": "#0000",
@@ -151,16 +154,16 @@
     "statusBar.foreground": "#525252",
     "statusBar.noFolderBackground": "#000",
 
-    "tab.activeBackground": "#202020",
+    "tab.activeBackground": "#090909",
     "tab.activeForeground": "#ffffff",
     "tab.activeModifiedBorder": "#0000",
     "tab.border": "#0000",
-    "tab.inactiveBackground": "#000",
+    "tab.inactiveBackground": "#2b2b2b",
     "tab.inactiveForeground": "#929292",
     "tab.inactiveModifiedBorder": "#000",
-    "editorGroupHeader.tabsBackground": "#000000", // tabs background color
+    "editorGroupHeader.tabsBackground": "#090909", // tabs background color
 
-    "breadcrumb.background": "#202020",
+    "breadcrumb.background": "#090909",
     "breadcrumb.foreground": "#7f7f7f",
     "breadcrumb.activeSelectionForeground": "#fff",
 
