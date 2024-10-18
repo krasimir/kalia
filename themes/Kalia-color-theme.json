@@ -33,10 +33,11 @@
     "editor.wordHighlightBorder": "#000",
     "editor.wordHighlightStrongBorder": "#000",
 
-    "editor.foldBackground": "#060606", // folder block background
+    "editor.foldBackground": "#000000", // folder block background
+    "editor.foldPlaceholderForeground": "#16dffe",
 
     "editorBracketMatch.background": "#414141", // bracket match
-    "editorBracketMatch.border": "#414141",
+    "editorBracketMatch.border": "#000000",
 
     "editorCursor.foreground": "#9e9e9e", // cursor
     "editorError.foreground": "#ff0032",
@@ -45,6 +46,7 @@
     "editorGutter.addedBackground": "#1e6d3e", // new lines
     "editorGutter.deletedBackground": "#ff0032", // deleted lines
     "editorGutter.modifiedBackground": "#255a7a", // modified lines
+    "editorGutter.foldingControlForeground": "#16dffe", // modified lines
     "editorIndentGuide.background": "#0f0a0d",
 
     "editorLineNumber.activeForeground": "#c2c2c2",
@@ -111,6 +113,7 @@
     "list.hoverBackground": "#0a0b0f",
     "list.inactiveSelectionBackground": "#313131",
     "list.inactiveSelectionForeground": "#ffffff",
+    "list.highlightForeground": "#ff0000",
 
     "panel.background": "#0a0b0f",
     "panel.border": "#0000",
@@ -136,10 +139,11 @@
     "scrollbarSlider.hoverBackground": "#ffffff54",
 
     "sideBar.background": "#000",
-    "sideBar.foreground": "#c7c7c7",
+    "sideBar.foreground": "#c2c2c2",
     "sideBarSectionHeader.background": "#0a0b0f",
     "sideBarSectionHeader.foreground": "#777777",
     "sideBarTitle.foreground": "#5a5a5a",
+    "sideBar.border": "#000",
 
     "statusBar.background": "#000",
     "statusBar.debuggingBackground": "#2e2e2e",
@@ -147,17 +151,17 @@
     "statusBar.foreground": "#525252",
     "statusBar.noFolderBackground": "#000",
 
-    "tab.activeBackground": "#3a3a3a",
+    "tab.activeBackground": "#202020",
     "tab.activeForeground": "#ffffff",
     "tab.activeModifiedBorder": "#0000",
     "tab.border": "#0000",
-    "tab.inactiveBackground": "#000000",
+    "tab.inactiveBackground": "#000",
     "tab.inactiveForeground": "#929292",
     "tab.inactiveModifiedBorder": "#000",
     "editorGroupHeader.tabsBackground": "#000000", // tabs background color
 
-    "breadcrumb.background": "#000000",
-    "breadcrumb.foreground": "#555555",
+    "breadcrumb.background": "#202020",
+    "breadcrumb.foreground": "#7f7f7f",
     "breadcrumb.activeSelectionForeground": "#fff",
 
     "terminal.ansiBlack": "#fff",
@@ -250,6 +254,11 @@
         "variable.other.readwrite"
       ],
       "settings": { "foreground": "#c7c7c7", "fontStyle": "" }
+    },
+    // invalid
+    {
+      "scope": ["invalid.illegal"],
+      "settings": { "foreground": "#ff0000" }
     },
     // bold
     {

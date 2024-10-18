@@ -1,5 +1,9 @@
 import * as React from "React";
 
+type Test = {
+  name: string;
+};
+
 export class App extends React.Component {
   public foo: string = "Hello world";
 
@@ -8,9 +12,7 @@ export class App extends React.Component {
   }
 }
 
-class Helper {
-  
-}
+class Helper {}
 
 const util = () => {
   function doSomething() {
@@ -19,10 +21,8 @@ const util = () => {
       // something else
     });
   }
-}
+};
 
-function Yes() {
-  
-}
+function Yes() {}
 
 const h = new Helper();
