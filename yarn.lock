@@ -457,11 +457,6 @@ clone-deep@^4.0.1:
     kind-of "^6.0.2"
     shallow-clone "^3.0.0"
 
-code-inspector@1.6.2:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/code-inspector/-/code-inspector-1.6.2.tgz#46881a9e95c944894ea2c5e5059316b4119a9336"
-  integrity sha512-bmepHvc7OXx4ee/HTelK+7sgYm/UBLVeGGECUf+owDt95GvfIm0nopHKZBTq7KfwZHP1jcyQavLJXXswSDkB5g==
-
 color-convert@^1.9.0:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.3.tgz#bb71850690e1f136567de629d2d5471deda4c1e8"
@@ -1144,11 +1139,6 @@ p-try@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-2.2.0.tgz#cb2868540e313d61de58fafbe35ce9004d5540e6"
   integrity sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==
-
-pairify@1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/pairify/-/pairify-1.0.4.tgz#038ccc21d63255d0f4fc3b770e9d39a031656fab"
-  integrity sha512-/53RS40kx4YzY08x9LEMkvkwlNq1/ZmELwaFJhWzFhoZMIytanyVGZkN75CZBBmR+kS944lrZTyyxm6hb2QbWg==
 
 parse-semver@^1.1.1:
   version "1.1.1"

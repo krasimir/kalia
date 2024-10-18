@@ -3,7 +3,7 @@
   "displayName": "Kalia",
   "description": "A thoughtful VS Code color theme",
   "publisher": "krasimir",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "keywords": [
     "theme",
     "dark",
@@ -58,7 +58,7 @@
   "scripts": {
     "build:client": "webpack --mode production --config webpack.config.client.js",
     "build:server": "webpack --mode production --config webpack.config.server.js",
-    "release": "yarn build:client && yarn build:server && ./node_modules/.bin/vsce publish minor",
+    "release": "yarn build:client && yarn build:server && ./node_modules/.bin/vsce package -o ./dist",
     "dev": "tsc -b -w",
     "test": "node ./__tests__/index.js"
   },
@@ -66,9 +66,7 @@
     "@types/lodash": "4.17.10",
     "@types/node": "22.7.6",
     "@types/vscode": "1.42.0",
-    "code-inspector": "1.6.2",
     "lodash": "4.17.21",
-    "pairify": "1.0.4",
     "ts-loader": "9.5.1",
     "typescript": "5.6.3",
     "vscode-languageclient": "9.0.1",

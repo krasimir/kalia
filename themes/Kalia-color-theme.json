@@ -147,14 +147,14 @@
     "statusBar.foreground": "#525252",
     "statusBar.noFolderBackground": "#000",
 
-    "tab.activeBackground": "#000000",
+    "tab.activeBackground": "#3a3a3a",
     "tab.activeForeground": "#ffffff",
     "tab.activeModifiedBorder": "#0000",
     "tab.border": "#0000",
-    "tab.inactiveBackground": "#252525",
-    "tab.inactiveForeground": "#7a7a7a",
+    "tab.inactiveBackground": "#000000",
+    "tab.inactiveForeground": "#929292",
     "tab.inactiveModifiedBorder": "#000",
-    "editorGroupHeader.tabsBackground": "#161616", // tabs background color
+    "editorGroupHeader.tabsBackground": "#000000", // tabs background color
 
     "breadcrumb.background": "#000000",
     "breadcrumb.foreground": "#555555",
